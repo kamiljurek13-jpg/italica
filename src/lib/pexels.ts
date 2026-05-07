@@ -26,29 +26,23 @@ interface PexelsSearchResponse {
   per_page: number;
 }
 
-// Mood-based search keywords for lingerie/luxury items
-const moodKeywords = {
-  sleepy: [
-    'luxury silk pajamas',
-    'soft satin nightwear',
-    'elegant sleepwear',
-    'comfortable cotton nightgown',
-    'delicate nightwear natural light',
-  ],
-  sexy: [
-    'luxury black lingerie',
-    'elegant lace underwear',
-    'dramatic lingerie shadows',
-    'red satin lingerie',
-    'seductive lingerie set',
-  ],
-  daily: [
-    'white cotton underwear',
-    'elegant everyday lingerie',
-    'simple white bra',
-    'comfortable daily lingerie',
-    'classic white lingerie',
-  ],
+const colorTranslations: Record<string, string> = {
+  czarny: 'black',
+  biały: 'white',
+  czerwony: 'red',
+  różowy: 'pink',
+  beżowy: 'beige',
+  granatowy: 'navy',
+  fioletowy: 'purple',
+  złoty: 'gold',
+  bordowy: 'burgundy',
+  szary: 'gray',
+};
+
+const moodMaterial: Record<string, string> = {
+  sexy: 'lace',
+  sleepy: 'silk',
+  daily: 'cotton',
 };
 
 // Category-specific keywords
@@ -67,6 +61,7 @@ const categoryKeywords = {
 export const fetchPexelsImage = async (
   mood: string,
   category: string,
+  color: string = '',
   index: number = 0
 ): Promise<string | null> => {
   const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
@@ -77,13 +72,12 @@ export const fetchPexelsImage = async (
   }
 
   try {
-    // Get keywords for the mood
-    const moodKeywordList = moodKeywords[mood as keyof typeof moodKeywords] || moodKeywords.daily;
-    const categoryKeyword = categoryKeywords[category as keyof typeof categoryKeywords] || 'jewelry';
-    
-    // Use the index to cycle through different keyword combinations
-    const keywordIndex = index % moodKeywordList.length;
-    const searchQuery = `${moodKeywordList[keywordIndex]} ${categoryKeyword}`;
+    const colorEn = colorTranslations[color] || color;
+    const material = moodMaterial[mood as keyof typeof moodMaterial] || 'lingerie';
+    const categoryKeyword = categoryKeywords[category as keyof typeof categoryKeywords] || 'lingerie';
+    const searchQuery = colorEn
+      ? `${colorEn} ${material} ${categoryKeyword}`
+      : `${material} ${categoryKeyword}`;
 
     const response = await fetch(
       `https://api.pexels.com/v1/search?query=${encodeURIComponent(searchQuery)}&orientation=portrait&per_page=15`,
@@ -121,7 +115,7 @@ export const fetchPexelsImage = async (
  * This helps optimize API calls
  */
 export const fetchImagesForProducts = async (
-  products: Array<{ id: string; mood: string[]; category: string }>
+  products: Array<{ id: string; mood: string[]; category: string; color?: string }>
 ): Promise<Record<string, string>> => {
   const imageMap: Record<string, string> = {};
   
@@ -132,7 +126,7 @@ export const fetchImagesForProducts = async (
     const product = products[i];
     const primaryMood = product.mood[0] || 'daily';
     
-    const imageUrl = await fetchPexelsImage(primaryMood, product.category, i);
+    const imageUrl = await fetchPexelsImage(primaryMood, product.category, product.color ?? '', i);
     
     if (imageUrl) {
       imageMap[product.id] = imageUrl;

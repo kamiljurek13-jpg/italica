@@ -10,6 +10,7 @@ interface Product {
   id: string;
   name: string;
   category: string;
+  color: string;
   price: number;
   description: string;
   image: string;
@@ -34,29 +35,23 @@ interface PexelsSearchResponse {
   photos: PexelsPhoto[];
 }
 
-// Mood-based search keywords
-const moodKeywords = {
-  sleepy: [
-    'luxury silk pajamas',
-    'soft satin nightwear',
-    'elegant sleepwear',
-    'comfortable cotton nightgown',
-    'delicate nightwear natural light',
-  ],
-  sexy: [
-    'luxury black lingerie',
-    'elegant lace underwear',
-    'dramatic lingerie shadows',
-    'red satin lingerie',
-    'seductive lingerie set',
-  ],
-  daily: [
-    'white cotton underwear',
-    'elegant everyday lingerie',
-    'simple white bra',
-    'comfortable daily lingerie',
-    'classic white lingerie',
-  ],
+const colorTranslations: Record<string, string> = {
+  czarny: 'black',
+  biały: 'white',
+  czerwony: 'red',
+  różowy: 'pink',
+  beżowy: 'beige',
+  granatowy: 'navy',
+  fioletowy: 'purple',
+  złoty: 'gold',
+  bordowy: 'burgundy',
+  szary: 'gray',
+};
+
+const moodMaterial: Record<string, string> = {
+  sexy: 'lace',
+  sleepy: 'silk',
+  daily: 'cotton',
 };
 
 const categoryKeywords = {
@@ -73,6 +68,7 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 async function fetchPexelsImage(
   mood: string,
   category: string,
+  color: string,
   index: number
 ): Promise<string | null> {
   const apiKey = process.env.VITE_PEXELS_API_KEY;
@@ -83,11 +79,10 @@ async function fetchPexelsImage(
   }
 
   try {
-    const moodKeywordList = moodKeywords[mood as keyof typeof moodKeywords] || moodKeywords.daily;
+    const colorEn = colorTranslations[color] || color;
+    const material = moodMaterial[mood as keyof typeof moodMaterial] || 'lingerie';
     const categoryKeyword = categoryKeywords[category as keyof typeof categoryKeywords] || 'lingerie';
-    
-    const keywordIndex = index % moodKeywordList.length;
-    const searchQuery = `${moodKeywordList[keywordIndex]} ${categoryKeyword}`;
+    const searchQuery = `${colorEn} ${material} ${categoryKeyword}`;
 
     console.log(`  🔍 Searching: "${searchQuery}"`);
 
@@ -138,7 +133,7 @@ async function updateProductImages() {
 
     console.log(`[${i + 1}/${products.length}] ${product.name} (${primaryMood} - ${product.category})`);
 
-    const imageUrl = await fetchPexelsImage(primaryMood, product.category, i);
+    const imageUrl = await fetchPexelsImage(primaryMood, product.category, product.color, i);
 
     if (imageUrl) {
       product.image = imageUrl;
