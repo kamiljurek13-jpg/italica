@@ -23,7 +23,7 @@ const Category = () => {
         <FilterSortBar 
           filtersOpen={filtersOpen}
           setFiltersOpen={setFiltersOpen}
-          itemCount={24}
+          itemCount={18}
         />
         
         <ProductGrid />
