@@ -18,15 +18,15 @@ const OurStory = () => {
         <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
           <PageHeader 
             title="Our Story" 
-            subtitle="A journey of passion, craftsmanship, and timeless elegance"
+            subtitle="A journey of passion, craftsmanship, and Italian elegance"
           />
           
           <ContentSection>
             <ImageTextBlock
               image="/founders.png"
-              imageAlt="Company founders"
-              title="Founded on Passion"
-              content="LINEA Jewelry was born from a shared vision of creating timeless pieces that transcend fleeting trends. Our founders, united by their passion for exceptional craftsmanship and sustainable practices, established the brand with a commitment to creating jewelry that tells a story - your story."
+              imageAlt="Italica founders"
+              title="Born in Milano"
+              content="Italica was born from a shared vision of creating luxury lingerie that celebrates the female form with Italian artistry. Our founders, united by their passion for exceptional fabrics and timeless design, established the brand in the heart of Milano with a commitment to creating pieces that make every woman feel extraordinary."
               imagePosition="left"
             />
           </ContentSection>
@@ -34,15 +34,15 @@ const OurStory = () => {
           <ContentSection title="Our Heritage">
             <div className="grid md:grid-cols-2 gap-12">
               <div className="space-y-6">
-                <h3 className="text-xl font-light text-foreground">Traditional Craftsmanship</h3>
+                <h3 className="text-xl font-light text-foreground">Italian Craftsmanship</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Every piece in our collection is meticulously handcrafted by skilled artisans who have honed their craft over generations. We honor traditional techniques while embracing modern innovation, ensuring each piece meets our exacting standards for quality and beauty.
+                  Every piece in our collection is meticulously handcrafted by skilled artisans in our Milano atelier. We honor traditional Italian textile techniques while embracing modern innovation, ensuring each piece meets our exacting standards for quality and beauty.
                 </p>
               </div>
               <div className="space-y-6">
-                <h3 className="text-xl font-light text-foreground">Sustainable Future</h3>
+                <h3 className="text-xl font-light text-foreground">Sustainable Luxury</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  We believe luxury and sustainability can coexist beautifully. Our commitment to ethical sourcing, recycled materials, and responsible manufacturing practices ensures that every piece you wear contributes to a more sustainable future.
+                  We believe luxury and sustainability can coexist beautifully. Our commitment to ethically sourced fabrics, eco-friendly packaging, and responsible manufacturing ensures that every piece you wear contributes to a more sustainable future.
                 </p>
               </div>
             </div>
@@ -53,19 +53,19 @@ const OurStory = () => {
               <div className="space-y-4">
                 <h3 className="text-lg font-light text-foreground">Excellence</h3>
                 <p className="text-muted-foreground">
-                  We pursue perfection in every detail, from the initial design concept to the final polish.
+                  We pursue perfection in every stitch, from the initial sketch to the final fitting.
                 </p>
               </div>
               <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Authenticity</h3>
+                <h3 className="text-lg font-light text-foreground">Sensuality</h3>
                 <p className="text-muted-foreground">
-                  Each piece reflects genuine craftsmanship and tells an authentic story of artistry and care.
+                  Each piece is designed to celebrate and empower, creating an intimate connection between fabric and skin.
                 </p>
               </div>
               <div className="space-y-4">
                 <h3 className="text-lg font-light text-foreground">Innovation</h3>
                 <p className="text-muted-foreground">
-                  We continuously evolve our designs and techniques while honoring timeless aesthetic principles.
+                  We continuously evolve our designs and techniques while honoring timeless Italian aesthetic traditions.
                 </p>
               </div>
             </div>

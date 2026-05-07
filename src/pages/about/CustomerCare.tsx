@@ -21,19 +21,19 @@ const CustomerCare = () => {
         <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
         <PageHeader 
           title="Customer Care" 
-          subtitle="We're here to help you with all your jewelry needs"
+          subtitle="We're here to help you with all your lingerie needs"
         />
         
         <ContentSection title="Contact Information">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="space-y-4">
               <h3 className="text-lg font-light text-foreground">Phone</h3>
-              <p className="text-muted-foreground">+1 (555) 123-4567</p>
-              <p className="text-sm text-muted-foreground">Mon-Fri: 9AM-6PM EST<br />Sat: 10AM-4PM EST</p>
+              <p className="text-muted-foreground">+39 02 7600 1234</p>
+              <p className="text-sm text-muted-foreground">Mon-Fri: 9AM-6PM CET<br />Sat: 10AM-4PM CET</p>
             </div>
             <div className="space-y-4">
               <h3 className="text-lg font-light text-foreground">Email</h3>
-              <p className="text-muted-foreground">care@lineajewelry.com</p>
+              <p className="text-muted-foreground">ciao@italicalingerie.com</p>
               <p className="text-sm text-muted-foreground">Response within 24 hours</p>
             </div>
             <div className="space-y-4">
@@ -53,7 +53,7 @@ const CustomerCare = () => {
                 What are your shipping options and timeframes?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                We offer free standard shipping (3-5 business days) on orders over $500. Express shipping (1-2 business days) is available for $25. All orders are fully insured and require signature confirmation.
+                We offer free standard shipping (3-5 business days) on orders over €100. Express shipping (1-2 business days) is available for €15. All orders are beautifully gift-wrapped and shipped from our Milano warehouse.
               </AccordionContent>
             </AccordionItem>
 
@@ -62,43 +62,34 @@ const CustomerCare = () => {
                 What is your return and exchange policy?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                We offer a 30-day return policy for unworn items in original condition. Custom and engraved pieces are final sale. Returns are free with our prepaid return label.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="warranty" className="border border-border rounded-lg px-6">
-              <AccordionTrigger className="text-left hover:no-underline">
-                What warranty do you offer on your jewelry?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                All LINEA jewelry comes with a lifetime warranty against manufacturing defects. This includes free repairs for normal wear and tear, stone tightening, and professional cleaning.
+                We offer a 30-day return policy for unworn items with tags attached and in original packaging. For hygiene reasons, briefs and bodysuits are final sale unless defective. Returns are free within Europe.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="sizing" className="border border-border rounded-lg px-6">
               <AccordionTrigger className="text-left hover:no-underline">
-                Can I resize my jewelry after purchase?
+                How do I find my perfect size?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Yes, we offer free ring resizing within 60 days of purchase (up to 2 sizes). Additional resizing is available for a service fee. Some designs cannot be resized due to their construction.
+                Visit our Size Guide for detailed measurement instructions and our conversion chart between Italian, EU, UK, and US sizes. Our customer care team is also available for personalized fitting advice.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="care" className="border border-border rounded-lg px-6">
               <AccordionTrigger className="text-left hover:no-underline">
-                How should I care for my LINEA jewelry?
+                How should I care for my Italica lingerie?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Store pieces separately in soft pouches, avoid contact with chemicals and cosmetics, and clean gently with a soft cloth. We recommend professional cleaning every 6-12 months.
+                Hand wash in cold water with a gentle detergent. Do not bleach or tumble dry. Lay flat to dry. Store in the silk pouch provided. For detailed care instructions, check the label on each garment.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="authentication" className="border border-border rounded-lg px-6">
+            <AccordionItem value="gift" className="border border-border rounded-lg px-6">
               <AccordionTrigger className="text-left hover:no-underline">
-                How can I verify the authenticity of my jewelry?
+                Do you offer gift wrapping?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Every LINEA piece comes with a certificate of authenticity and is hallmarked. You can verify authenticity on our website using your unique piece number or contact our customer care team.
+                Yes! All Italica orders come in our signature gift packaging at no extra charge. We also offer a premium gift box upgrade and personalized gift notes at checkout.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
