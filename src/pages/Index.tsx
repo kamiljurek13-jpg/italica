@@ -5,6 +5,7 @@ import FiftyFiftySection from "../components/content/FiftyFiftySection";
 import OneThirdTwoThirdsSection from "../components/content/OneThirdTwoThirdsSection";
 import ProductCarousel from "../components/content/ProductCarousel";
 import EditorialSection from "../components/content/EditorialSection";
+import GiftHelper from "../components/GiftHelper";
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
       <main className="pt-6">
         <FiftyFiftySection />
         <ProductCarousel />
+        <GiftHelper />
         <LargeHero />
         <OneThirdTwoThirdsSection />
         <EditorialSection />

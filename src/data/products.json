@@ -1,0 +1,226 @@
+[
+  {
+    "id": "1",
+    "name": "Biustonosz Koronkowy Czarny",
+    "category": "biustonosze",
+    "price": 189,
+    "description": "Luksusowy biustonosz z delikatnej koronki, idealny na wieczór",
+    "image": "https://images.pexels.com/photos/9532134/pexels-photo-9532134.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czarny",
+    "mood": [
+      "sexy"
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Biustonosz Klasyczny Biały",
+    "category": "biustonosze",
+    "price": 149,
+    "description": "Elegancki biustonosz w klasycznym białym kolorze",
+    "image": "https://images.pexels.com/photos/16037833/pexels-photo-16037833.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "biały",
+    "mood": [
+      "daily"
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Biustonosz Satynowy Czerwony",
+    "category": "biustonosze",
+    "price": 199,
+    "description": "Zmysłowy biustonosz z satyny w odważnym czerwonym kolorze",
+    "image": "https://images.pexels.com/photos/15650519/pexels-photo-15650519.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czerwony",
+    "mood": [
+      "sexy"
+    ]
+  },
+  {
+    "id": "4",
+    "name": "Piżama Jedwabna Czarna",
+    "category": "piżamy",
+    "price": 349,
+    "description": "Luksusowa piżama z naturalnego jedwabiu w głębokim czarnym kolorze",
+    "image": "https://images.pexels.com/photos/4166450/pexels-photo-4166450.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czarny",
+    "mood": [
+      "sleepy",
+      "sexy"
+    ]
+  },
+  {
+    "id": "5",
+    "name": "Piżama Bawełniana Biała",
+    "category": "piżamy",
+    "price": 229,
+    "description": "Komfortowa piżama z miękkiej bawełny, idealna do codziennego użytku",
+    "image": "https://images.pexels.com/photos/4166450/pexels-photo-4166450.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "biały",
+    "mood": [
+      "sleepy",
+      "daily"
+    ]
+  },
+  {
+    "id": "6",
+    "name": "Piżama Satynowa Czerwona",
+    "category": "piżamy",
+    "price": 299,
+    "description": "Elegancka piżama z satyny w romantycznym czerwonym kolorze",
+    "image": "https://images.pexels.com/photos/7564693/pexels-photo-7564693.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czerwony",
+    "mood": [
+      "sexy",
+      "sleepy"
+    ]
+  },
+  {
+    "id": "7",
+    "name": "Koszulka Nocna Koronkowa Czarna",
+    "category": "koszulki-nocne",
+    "price": 179,
+    "description": "Zmysłowa koszulka nocna z delikatnej koronki",
+    "image": "https://images.pexels.com/photos/28179359/pexels-photo-28179359.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czarny",
+    "mood": [
+      "sexy"
+    ]
+  },
+  {
+    "id": "8",
+    "name": "Koszulka Nocna Bawełniana Biała",
+    "category": "koszulki-nocne",
+    "price": 129,
+    "description": "Wygodna koszulka nocna z miękkiej bawełny",
+    "image": "https://images.pexels.com/photos/27001577/pexels-photo-27001577.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "biały",
+    "mood": [
+      "sleepy",
+      "daily"
+    ]
+  },
+  {
+    "id": "9",
+    "name": "Koszulka Nocna Jedwabna Czerwona",
+    "category": "koszulki-nocne",
+    "price": 249,
+    "description": "Luksusowa koszulka nocna z jedwabiu w odważnym czerwonym kolorze",
+    "image": "https://images.pexels.com/photos/34444203/pexels-photo-34444203.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czerwony",
+    "mood": [
+      "sexy",
+      "sleepy"
+    ]
+  },
+  {
+    "id": "10",
+    "name": "Pończochy Koronkowe Czarne",
+    "category": "pończochy",
+    "price": 89,
+    "description": "Eleganckie pończochy z koronkowym wykończeniem",
+    "image": "https://images.pexels.com/photos/35907411/pexels-photo-35907411.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czarny",
+    "mood": [
+      "sexy"
+    ]
+  },
+  {
+    "id": "11",
+    "name": "Pończochy Klasyczne Białe",
+    "category": "pończochy",
+    "price": 69,
+    "description": "Klasyczne pończochy w eleganckim białym kolorze",
+    "image": "https://images.pexels.com/photos/30720995/pexels-photo-30720995.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "biały",
+    "mood": [
+      "daily",
+      "sexy"
+    ]
+  },
+  {
+    "id": "12",
+    "name": "Pończochy Satynowe Czerwone",
+    "category": "pończochy",
+    "price": 99,
+    "description": "Zmysłowe pończochy w odważnym czerwonym kolorze",
+    "image": "https://images.pexels.com/photos/16166095/pexels-photo-16166095.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czerwony",
+    "mood": [
+      "sexy"
+    ]
+  },
+  {
+    "id": "13",
+    "name": "Pas do Pończoch Koronkowy Czarny",
+    "category": "pasy",
+    "price": 149,
+    "description": "Luksusowy pas do pończoch z delikatnej koronki",
+    "image": "https://images.pexels.com/photos/9509034/pexels-photo-9509034.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czarny",
+    "mood": [
+      "sexy"
+    ]
+  },
+  {
+    "id": "14",
+    "name": "Pas do Pończoch Klasyczny Biały",
+    "category": "pasy",
+    "price": 129,
+    "description": "Elegancki pas do pończoch w klasycznym białym kolorze",
+    "image": "https://images.pexels.com/photos/36136152/pexels-photo-36136152.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "biały",
+    "mood": [
+      "sexy",
+      "daily"
+    ]
+  },
+  {
+    "id": "15",
+    "name": "Pas do Pończoch Satynowy Czerwony",
+    "category": "pasy",
+    "price": 159,
+    "description": "Zmysłowy pas do pończoch w odważnym czerwonym kolorze",
+    "image": "https://images.pexels.com/photos/9542202/pexels-photo-9542202.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czerwony",
+    "mood": [
+      "sexy"
+    ]
+  },
+  {
+    "id": "16",
+    "name": "Zestaw Bielizny Koronkowy Czarny",
+    "category": "zestawy",
+    "price": 399,
+    "description": "Kompletny zestaw bielizny z luksusowej koronki - biustonosz i majtki",
+    "image": "https://images.pexels.com/photos/9532134/pexels-photo-9532134.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czarny",
+    "mood": [
+      "sexy"
+    ]
+  },
+  {
+    "id": "17",
+    "name": "Zestaw Bielizny Klasyczny Biały",
+    "category": "zestawy",
+    "price": 299,
+    "description": "Elegancki zestaw bielizny w klasycznym białym kolorze",
+    "image": "https://images.pexels.com/photos/16037833/pexels-photo-16037833.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "biały",
+    "mood": [
+      "daily",
+      "sexy"
+    ]
+  },
+  {
+    "id": "18",
+    "name": "Zestaw Bielizny Satynowy Czerwony",
+    "category": "zestawy",
+    "price": 449,
+    "description": "Zmysłowy zestaw bielizny z satyny w odważnym czerwonym kolorze",
+    "image": "https://images.pexels.com/photos/15650519/pexels-photo-15650519.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+    "color": "czerwony",
+    "mood": [
+      "sexy"
+    ]
+  }
+]
