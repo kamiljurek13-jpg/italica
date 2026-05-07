@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -35,6 +35,14 @@ const GiftHelper = () => {
   const [recommendations, setRecommendations] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (loading) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [loading]);
 
   const handleMoodClick = async (mood: Mood) => {
     setSelectedMood(mood);
@@ -103,6 +111,7 @@ const GiftHelper = () => {
           })}
         </div>
 
+        <div ref={resultsRef}>
         {/* Loading State */}
         {loading && (
           <div className="flex flex-col items-center justify-center py-12">
@@ -170,6 +179,7 @@ const GiftHelper = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </section>
   );
