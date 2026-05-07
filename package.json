@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.39.2",
+    "@amplitude/plugin-session-replay-browser": "^1.30.0",
     "@anthropic-ai/sdk": "^0.95.0",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.11",

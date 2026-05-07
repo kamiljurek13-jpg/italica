@@ -1,9 +1,10 @@
 import * as amplitude from '@amplitude/analytics-browser';
+import { sessionReplayPlugin } from '@amplitude/plugin-session-replay-browser';
 
 // Initialize Amplitude
 export const initAmplitude = () => {
-  // Replace with your actual Amplitude API key
   const apiKey = import.meta.env.VITE_AMPLITUDE_API_KEY || 'YOUR_AMPLITUDE_API_KEY';
+  amplitude.add(sessionReplayPlugin({ sampleRate: 1 }));
   amplitude.init(apiKey, undefined, {
     defaultTracking: {
       sessions: true,
