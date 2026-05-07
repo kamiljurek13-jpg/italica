@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Pagination from "./Pagination";
 import productsData from "@/data/products.json";
 
@@ -14,9 +14,29 @@ interface Product {
   mood: string[];
 }
 
-const products: Product[] = productsData;
+const allProducts: Product[] = productsData;
 
 const ProductGrid = () => {
+  const { category } = useParams<{ category: string }>();
+  
+  // Map Polish category names to product.json categories
+  const categoryMap: { [key: string]: string } = {
+    'all': 'all',
+    'biustonosze': 'biustonosze',
+    'piżamy': 'piżamy',
+    'koszulki nocne': 'koszulki nocne',
+    'pończochy': 'pończochy',
+    'pasy': 'pasy do pończoch',
+    'zestawy': 'zestawy bielizny'
+  };
+  
+  // Filter products based on category
+  const products = category === 'all' || !category
+    ? allProducts
+    : allProducts.filter(p => {
+        const mappedCategory = categoryMap[category.toLowerCase()];
+        return p.category === mappedCategory || p.category === category;
+      });
   return (
     <section className="w-full px-6 mb-16">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">

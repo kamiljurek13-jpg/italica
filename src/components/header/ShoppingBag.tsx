@@ -1,31 +1,18 @@
 import { X, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: string;
-  image: string;
-  quantity: number;
-  category: string;
-}
+import { useCart } from "@/context/CartContext";
 
 interface ShoppingBagProps {
   isOpen: boolean;
   onClose: () => void;
-  cartItems: CartItem[];
-  updateQuantity: (id: number, newQuantity: number) => void;
   onViewFavorites?: () => void;
 }
 
-const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorites }: ShoppingBagProps) => {
+const ShoppingBag = ({ isOpen, onClose, onViewFavorites }: ShoppingBagProps) => {
+  const { items: cartItems, updateQuantity, removeFromCart, totalPrice } = useCart();
+  
   if (!isOpen) return null;
-
-  const subtotal = cartItems.reduce((sum, item) => {
-    const price = parseFloat(item.price.replace('€', '').replace(',', ''));
-    return sum + (price * item.quantity);
-  }, 0);
 
   return (
     <div className="fixed inset-0 z-50 h-screen">
@@ -78,7 +65,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
               {/* Cart items */}
               <div className="flex-1 overflow-y-auto space-y-6 mb-6">
                 {cartItems.map((item) => (
-                  <div key={item.id} className="flex gap-4">
+                  <div key={`${item.id}-${item.size}`} className="flex gap-4">
                     <div className="w-20 h-20 bg-muted/10 rounded-lg overflow-hidden">
                       <img 
                         src={item.image} 
@@ -89,17 +76,18 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                     <div className="flex-1">
                       <div className="flex justify-between items-start mb-2">
                         <div>
-                          <p className="text-sm font-light text-muted-foreground">{item.category}</p>
+                          <p className="text-sm font-light text-muted-foreground capitalize">{item.category}</p>
                           <h3 className="text-sm font-medium text-foreground">{item.name}</h3>
+                          <p className="text-xs text-muted-foreground">Rozmiar: {item.size}</p>
                         </div>
-                        <p className="text-sm font-light text-foreground">{item.price}</p>
+                        <p className="text-sm font-light text-foreground">{item.price} zł</p>
                       </div>
                       <div className="flex items-center gap-2 mt-3">
                         <div className="flex items-center border border-border">
                           <button 
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)}
                             className="p-2 hover:bg-muted/50 transition-colors"
-                            aria-label="Decrease quantity"
+                            aria-label="Zmniejsz ilość"
                           >
                             <Minus size={14} />
                           </button>
@@ -107,13 +95,19 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                             {item.quantity}
                           </span>
                           <button 
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}
                             className="p-2 hover:bg-muted/50 transition-colors"
-                            aria-label="Increase quantity"
+                            aria-label="Zwiększ ilość"
                           >
                             <Plus size={14} />
                           </button>
                         </div>
+                        <button
+                          onClick={() => removeFromCart(item.id, item.size)}
+                          className="text-xs text-muted-foreground hover:text-foreground transition-colors ml-2"
+                        >
+                          Usuń
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -123,12 +117,12 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
               {/* Subtotal and checkout */}
               <div className="border-t border-border pt-6 space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-light text-foreground">Subtotal</span>
-                  <span className="text-sm font-medium text-foreground">€{subtotal.toLocaleString('en-EU', { minimumFractionDigits: 2 })}</span>
+                  <span className="text-sm font-light text-foreground">Suma częściowa</span>
+                  <span className="text-sm font-medium text-foreground">{totalPrice.toLocaleString('pl-PL', { minimumFractionDigits: 2 })} zł</span>
                 </div>
                 
                 <p className="text-xs text-muted-foreground">
-                  Shipping and taxes calculated at checkout
+                  Wysyłka i podatki obliczane przy kasie
                 </p>
                 
                 <Button 
@@ -138,7 +132,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                   onClick={onClose}
                 >
                   <Link to="/checkout">
-                    Proceed to Checkout
+                    Przejdź do kasy
                   </Link>
                 </Button>
                 
@@ -149,8 +143,8 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                   onClick={onClose}
                   asChild
                 >
-                  <Link to="/category/shop">
-                    Continue Shopping
+                  <Link to="/category/all">
+                    Kontynuuj zakupy
                   </Link>
                 </Button>
               </div>

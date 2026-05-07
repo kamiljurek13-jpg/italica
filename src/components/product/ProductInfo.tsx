@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
   Breadcrumb, 
@@ -10,15 +10,59 @@ import {
   BreadcrumbSeparator 
 } from "@/components/ui/breadcrumb";
 import { Minus, Plus } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import { toast } from "sonner";
+import productsData from "@/data/products.json";
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  description: string;
+  image: string;
+  color: string;
+  mood: string[];
+}
 
 const ProductInfo = () => {
+  const { productId } = useParams<{ productId: string }>();
+  const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("M");
 
   const sizes = ["XS", "S", "M", "L", "XL"];
+  
+  // Find the product from products.json
+  const product = productsData.find((p: Product) => p.id === productId) as Product | undefined;
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
+  
+  const handleAddToCart = () => {
+    if (!product) return;
+    
+    // Add to cart multiple times based on quantity
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        size: selectedSize,
+        category: product.category,
+        color: product.color,
+      });
+    }
+    
+    toast.success(`${product.name} dodano do koszyka!`, {
+      description: `Rozmiar: ${selectedSize}, Ilość: ${quantity}`,
+    });
+  };
+  
+  if (!product) {
+    return <div>Produkt nie znaleziony</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -49,11 +93,11 @@ const ProductInfo = () => {
       <div className="space-y-2">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-sm font-light text-muted-foreground mb-1">Bras</p>
-            <h1 className="text-2xl md:text-3xl font-light text-foreground">Serafina</h1>
+            <p className="text-sm font-light text-muted-foreground mb-1 capitalize">{product.category}</p>
+            <h1 className="text-2xl md:text-3xl font-light text-foreground">{product.name}</h1>
           </div>
           <div className="text-right">
-            <p className="text-xl font-light text-foreground">€185</p>
+            <p className="text-xl font-light text-foreground">{product.price} zł</p>
           </div>
         </div>
       </div>
@@ -61,18 +105,18 @@ const ProductInfo = () => {
       {/* Product details */}
       <div className="space-y-4 py-4 border-b border-border">
         <div className="space-y-2">
-          <h3 className="text-sm font-light text-foreground">Fabric</h3>
-          <p className="text-sm font-light text-muted-foreground">Italian Leavers Lace & Silk</p>
+          <h3 className="text-sm font-light text-foreground">Opis</h3>
+          <p className="text-sm font-light text-muted-foreground">{product.description}</p>
         </div>
         
         <div className="space-y-2">
-          <h3 className="text-sm font-light text-foreground">Color</h3>
-          <p className="text-sm font-light text-muted-foreground">Nero (Black)</p>
+          <h3 className="text-sm font-light text-foreground">Kolor</h3>
+          <p className="text-sm font-light text-muted-foreground capitalize">{product.color}</p>
         </div>
         
         {/* Size selector */}
         <div className="space-y-2">
-          <h3 className="text-sm font-light text-foreground">Size</h3>
+          <h3 className="text-sm font-light text-foreground">Rozmiar</h3>
           <div className="flex gap-2">
             {sizes.map((size) => (
               <button
@@ -89,17 +133,12 @@ const ProductInfo = () => {
             ))}
           </div>
         </div>
-        
-        <div className="space-y-2">
-          <h3 className="text-sm font-light text-foreground">Editor's notes</h3>
-          <p className="text-sm font-light text-muted-foreground italic">"A masterpiece of Italian craftsmanship — the Serafina bra combines delicate Leavers lace with silk for a piece that feels as luxurious as it looks."</p>
-        </div>
       </div>
 
       {/* Quantity and Add to Cart */}
       <div className="space-y-4">
         <div className="flex items-center gap-4">
-          <span className="text-sm font-light text-foreground">Quantity</span>
+          <span className="text-sm font-light text-foreground">Ilość</span>
           <div className="flex items-center border border-border">
             <Button
               variant="ghost"
@@ -124,9 +163,10 @@ const ProductInfo = () => {
         </div>
 
         <Button 
+          onClick={handleAddToCart}
           className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-light rounded-none"
         >
-          Add to Bag
+          Dodaj do koszyka
         </Button>
       </div>
     </div>

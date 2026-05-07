@@ -1,69 +1,16 @@
-import { ArrowRight, X, Minus, Plus } from "lucide-react";
-import { useState, useEffect } from "react";
+import { ArrowRight, X } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import ShoppingBag from "./ShoppingBag";
-import pantheonImage from "@/assets/pantheon.jpg";
-import eclipseImage from "@/assets/eclipse.jpg";
-import haloImage from "@/assets/halo.jpg";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: string;
-  image: string;
-  quantity: number;
-  category: string;
-}
+import { useCart } from "@/context/CartContext";
 
 const Navigation = () => {
+  const { totalItems } = useCart();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [offCanvasType, setOffCanvasType] = useState<'favorites' | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
-  
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: 1,
-      name: "Serafina",
-      price: "€185",
-      image: pantheonImage,
-      quantity: 1,
-      category: "Bras"
-    },
-    {
-      id: 2,
-      name: "Valentina",
-      price: "€120",
-      image: eclipseImage,
-      quantity: 1,
-      category: "Briefs"
-    },
-    {
-      id: 3,
-      name: "Aurora",
-      price: "€245",
-      image: haloImage,
-      quantity: 1,
-      category: "Bodysuits"
-    }
-  ]);
-
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      setCartItems(items => items.filter(item => item.id !== id));
-    } else {
-      setCartItems(items => 
-        items.map(item => 
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
-      );
-    }
-  };
 
   const popularSearches = [
     "Silk Bras",
@@ -76,33 +23,19 @@ const Navigation = () => {
   
   const navItems = [
     { 
-      name: "Shop", 
-      href: "/category/shop",
+      name: "Produkty", 
+      href: "/category/all",
       submenuItems: [
-        "Bras",
-        "Briefs", 
-        "Bodysuits",
-        "Sleepwear",
-        "Sets"
+        "Biustonosze",
+        "Piżamy", 
+        "Koszulki nocne",
+        "Pończochy",
+        "Pasy",
+        "Zestawy"
       ],
       images: [
-        { src: "/rings-collection.png", alt: "Lace Collection", label: "Lace" },
-        { src: "/earrings-collection.png", alt: "Silk Collection", label: "Silk" }
-      ]
-    },
-    { 
-      name: "New in", 
-      href: "/category/new-in",
-      submenuItems: [
-        "This Week's Arrivals",
-        "Spring/Summer Collection",
-        "Featured Styles",
-        "Limited Edition",
-        "Pre-Orders"
-      ],
-      images: [
-        { src: "/arcus-bracelet.png", alt: "Serafina Bodysuit", label: "Serafina Bodysuit" },
-        { src: "/span-bracelet.png", alt: "Valentina Set", label: "Valentina Set" }
+        { src: "/rings-collection.png", alt: "Kolekcja Koronkowa", label: "Koronka" },
+        { src: "/earrings-collection.png", alt: "Kolekcja Satynowa", label: "Satyna" }
       ]
     },
     { 
@@ -349,8 +282,6 @@ const Navigation = () => {
       <ShoppingBag 
         isOpen={isShoppingBagOpen}
         onClose={() => setIsShoppingBagOpen(false)}
-        cartItems={cartItems}
-        updateQuantity={updateQuantity}
         onViewFavorites={() => {
           setIsShoppingBagOpen(false);
           setOffCanvasType('favorites');
