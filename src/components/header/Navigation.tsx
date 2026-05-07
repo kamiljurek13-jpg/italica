@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { X, Gift } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ShoppingBag from "./ShoppingBag";
@@ -127,7 +127,14 @@ const Navigation = () => {
 
         {/* Right icons */}
         <div className="flex items-center space-x-2">
-          <button 
+          <Link
+            to="/gift-helper"
+            className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+            aria-label="Doradca prezentów"
+          >
+            <Gift className="w-5 h-5" />
+          </Link>
+          <button
             className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
             aria-label="Szukaj"
             onClick={() => {

@@ -1,19 +1,17 @@
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import HeroCarousel from "../components/content/HeroCarousel";
+import GiftHelper from "../components/GiftHelper";
 
-const Index = () => {
+const GiftHelperPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
       <main className="pt-6">
-        <HeroCarousel />
+        <GiftHelper />
       </main>
-
       <Footer />
     </div>
   );
 };
 
-export default Index;
+export default GiftHelperPage;

@@ -7,23 +7,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import pantheonImage from "@/assets/pantheon.jpg";
-import eclipseImage from "@/assets/eclipse.jpg";
+import { useCart } from "@/context/CartContext";
+import { trackOrderCompleted } from "@/lib/amplitude";
 
 const Checkout = () => {
   const [showDiscountInput, setShowDiscountInput] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
   const [customerDetails, setCustomerDetails] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    phone: ""
+    email: "jan.kowalski@example.com",
+    firstName: "Jan",
+    lastName: "Kowalski",
+    phone: "+48 500 123 456"
   });
   const [shippingAddress, setShippingAddress] = useState({
-    address: "",
-    city: "",
-    postalCode: "",
-    country: ""
+    address: "ul. Marszałkowska 10/5",
+    city: "Warszawa",
+    postalCode: "00-950",
+    country: "Polska"
   });
   const [hasSeparateBilling, setHasSeparateBilling] = useState(false);
   const [billingDetails, setBillingDetails] = useState({
@@ -38,57 +38,24 @@ const Checkout = () => {
   });
   const [shippingOption, setShippingOption] = useState("standard");
   const [paymentDetails, setPaymentDetails] = useState({
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-    cardholderName: ""
+    cardNumber: "4242 4242 4242 4242",
+    expiryDate: "12/26",
+    cvv: "123",
+    cardholderName: "JAN KOWALSKI"
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentComplete, setPaymentComplete] = useState(false);
   
-  // Mock cart data - in a real app this would come from state management
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Serafina Bra",
-      price: "€185",
-      quantity: 1,
-      image: pantheonImage,
-      size: "M / IT 3"
-    },
-    {
-      id: 2,
-      name: "Valentina Briefs", 
-      price: "€95",
-      quantity: 1,
-      image: eclipseImage,
-      size: "S"
-    }
-  ]);
+  const { items: cartItems, updateQuantity, removeFromCart } = useCart();
 
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      setCartItems(items => items.filter(item => item.id !== id));
-    } else {
-      setCartItems(items => 
-        items.map(item => 
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
-      );
-    }
-  };
-
-  const subtotal = cartItems.reduce((sum, item) => {
-    const price = parseFloat(item.price.replace('€', '').replace(',', ''));
-    return sum + (price * item.quantity);
-  }, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const getShippingCost = () => {
     switch (shippingOption) {
       case "express":
-        return 15;
+        return 60;
       case "overnight":
-        return 35;
+        return 140;
       default:
         return 0; // Standard shipping is free
     }
@@ -126,6 +93,15 @@ const Checkout = () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     setIsProcessing(false);
+
+    trackOrderCompleted({
+      total,
+      subtotal,
+      shipping,
+      itemCount: cartItems.reduce((sum, item) => sum + item.quantity, 0),
+      items: cartItems.map(item => ({ id: item.id, name: item.name, price: item.price, quantity: item.quantity })),
+    });
+
     setPaymentComplete(true);
   };
 
@@ -163,7 +139,10 @@ const Checkout = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            onClick={() => {
+                              if (item.quantity <= 1) removeFromCart(item.id, item.size);
+                              else updateQuantity(item.id, item.size, item.quantity - 1);
+                            }}
                             className="h-8 w-8 p-0 rounded-none border-muted-foreground/20"
                           >
                             <Minus className="h-3 w-3" />
@@ -174,7 +153,7 @@ const Checkout = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}
                             className="h-8 w-8 p-0 rounded-none border-muted-foreground/20"
                           >
                             <Plus className="h-3 w-3" />
@@ -182,7 +161,7 @@ const Checkout = () => {
                         </div>
                       </div>
                       <div className="text-foreground font-medium">
-                        {item.price}
+                        {item.price} zł
                       </div>
                     </div>
                   ))}
@@ -221,7 +200,7 @@ const Checkout = () => {
                 <div className="border-t border-muted-foreground/20 mt-4 pt-6">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Suma częściowa</span>
-                    <span className="text-foreground">€{subtotal.toLocaleString()}</span>
+                    <span className="text-foreground">{subtotal.toLocaleString()} zł</span>
                   </div>
                 </div>
               </div>
@@ -631,17 +610,17 @@ const Checkout = () => {
                   <div className="bg-muted/10 p-6 rounded-none border border-muted-foreground/20 space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Suma częściowa</span>
-                      <span className="text-foreground">€{subtotal.toLocaleString()}</span>
+                      <span className="text-foreground">{subtotal.toLocaleString()} zł</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Dostawa</span>
                       <span className="text-foreground">
-                        {shipping === 0 ? "Bezpłatna" : `€${shipping}`}
+                        {shipping === 0 ? "Bezpłatna" : `${shipping} zł`}
                       </span>
                     </div>
                     <div className="flex justify-between text-lg font-medium border-t border-muted-foreground/20 pt-3">
                       <span className="text-foreground">Łącznie</span>
-                      <span className="text-foreground">€{total.toLocaleString()}</span>
+                      <span className="text-foreground">{total.toLocaleString()} zł</span>
                     </div>
                   </div>
 
@@ -650,7 +629,7 @@ const Checkout = () => {
                     disabled={isProcessing || !paymentDetails.cardNumber || !paymentDetails.expiryDate || !paymentDetails.cvv || !paymentDetails.cardholderName}
                     className="w-full rounded-none h-12 text-base"
                   >
-                    {isProcessing ? "Przetwarzanie..." : `Złóż zamówienie • €${total.toLocaleString()}`}
+                    {isProcessing ? "Przetwarzanie..." : `Złóż zamówienie • ${total.toLocaleString()} zł`}
                   </Button>
                 </div>
               ) : (

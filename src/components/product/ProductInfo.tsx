@@ -13,6 +13,7 @@ import { Minus, Plus } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { toast } from "sonner";
 import productsData from "@/data/products.json";
+import { trackProductAddedToCart } from "@/lib/amplitude";
 
 interface Product {
   id: string;
@@ -55,6 +56,8 @@ const ProductInfo = () => {
       });
     }
     
+    trackProductAddedToCart({ id: product.id, name: product.name, category: product.category, price: product.price, quantity });
+
     toast.success(`${product.name} dodano do koszyka!`, {
       description: `Rozmiar: ${selectedSize}, Ilość: ${quantity}`,
     });

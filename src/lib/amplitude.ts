@@ -56,3 +56,24 @@ export const trackSearchQueryEntered = (query: string, resultsCount: number) => 
 export const trackSearchPopularClicked = (searchTerm: string) => {
   trackEvent('Search Popular Clicked', { search_term: searchTerm });
 };
+
+export const trackProductViewed = (product: { id: string; name: string; category: string; price: number }) => {
+  trackEvent('Product Viewed', product);
+};
+
+export const trackProductAddedToCart = (product: { id: string; name: string; category: string; price: number; quantity: number }) => {
+  trackEvent('Product Added to Cart', product);
+};
+
+export const trackOrderCompleted = (order: {
+  total: number;
+  subtotal: number;
+  shipping: number;
+  itemCount: number;
+  items: { id: string; name: string; price: number; quantity: number }[];
+}) => {
+  trackEvent('Order Completed', {
+    ...order,
+    revenue: order.total,
+  });
+};
