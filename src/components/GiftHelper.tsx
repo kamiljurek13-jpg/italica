@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, Gift, Moon, Flame, Coffee } from 'lucide-react';
@@ -155,11 +156,13 @@ const GiftHelper = () => {
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-lg font-semibold">
-                        ${product.price.toLocaleString()}
+                        {product.price} zł
                       </span>
-                      <Button variant="outline" size="sm">
-                        View Details
-                      </Button>
+                      <Link to={`/product/${product.id}`}>
+                        <Button variant="outline" size="sm">
+                          View Details
+                        </Button>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>
