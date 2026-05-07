@@ -9,25 +9,25 @@ import AboutSidebar from "../../components/about/AboutSidebar";
 const StoreLocator = () => {
   const stores = [
     {
-      name: "LINEA Madison Avenue",
-      address: "789 Madison Avenue, New York, NY 10065",
-      phone: "+1 (212) 555-0123",
-      hours: "Mon-Sat: 10AM-8PM, Sun: 12PM-6PM",
-      services: ["Personal Shopping", "Custom Design", "Repairs", "Appraisals"]
+      name: "Italica Montenapoleone",
+      address: "Via Montenapoleone 14, 20121 Milano, Italia",
+      phone: "+39 02 7600 1234",
+      hours: "Mon-Sat: 10AM-8PM, Sun: 11AM-7PM",
+      services: ["Personal Fitting", "Custom Orders", "Bridal Consultation", "Alterations"]
     },
     {
-      name: "LINEA Beverly Hills",
-      address: "456 Rodeo Drive, Beverly Hills, CA 90210",
-      phone: "+1 (310) 555-0456",
-      hours: "Mon-Sat: 10AM-8PM, Sun: 12PM-6PM",
-      services: ["Personal Shopping", "Custom Design", "VIP Suites", "Repairs"]
+      name: "Italica Brera",
+      address: "Via Fiori Chiari 8, 20121 Milano, Italia",
+      phone: "+39 02 8900 5678",
+      hours: "Mon-Sat: 10AM-7:30PM, Sun: 12PM-6PM",
+      services: ["Personal Fitting", "Gift Wrapping", "Bridal Consultation"]
     },
     {
-      name: "LINEA SoHo",
-      address: "123 Spring Street, New York, NY 10012",
-      phone: "+1 (212) 555-0789",
-      hours: "Mon-Sat: 11AM-8PM, Sun: 12PM-7PM",
-      services: ["Browse & Buy", "Repairs", "Gift Wrapping"]
+      name: "Italica Porta Nuova",
+      address: "Corso Como 10, 20154 Milano, Italia",
+      phone: "+39 02 6200 9012",
+      hours: "Mon-Sat: 10AM-8PM, Sun: 11AM-7PM",
+      services: ["Browse & Buy", "Personal Fitting", "Gift Wrapping"]
     }
   ];
 
@@ -43,14 +43,14 @@ const StoreLocator = () => {
         <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
         <PageHeader 
           title="Store Locator" 
-          subtitle="Visit us in person for a personalized jewelry experience"
+          subtitle="Visit our boutiques in Milano for a personalized lingerie experience"
         />
         
         <ContentSection title="Interactive Store Map">
           <StoreMap />
         </ContentSection>
 
-        <ContentSection title="Our Locations">
+        <ContentSection title="Our Boutiques">
           <div className="grid gap-8">
             {stores.map((store, index) => (
               <div key={index} className="bg-background rounded-lg p-8 border border-border">
@@ -90,36 +90,36 @@ const StoreLocator = () => {
           </div>
         </ContentSection>
 
-        <ContentSection title="Private Appointments">
+        <ContentSection title="Private Fitting">
           <div className="space-y-6">
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Experience personalized service with a private appointment. Our jewelry consultants will guide you through our collections, help with custom designs, and provide expert advice in a comfortable, private setting.
+              Experience the luxury of a private fitting at our Milano boutiques. Our expert consultants will help you discover your perfect size, explore our collections, and find pieces that make you feel extraordinary.
             </p>
             
             <div className="grid md:grid-cols-3 gap-8 mt-12">
               <div className="space-y-3">
-                <h4 className="text-lg font-light text-foreground">Personal Shopping</h4>
+                <h4 className="text-lg font-light text-foreground">Personal Fitting</h4>
                 <p className="text-muted-foreground text-sm">
-                  One-on-one guidance to find the perfect piece for any occasion
+                  One-on-one guidance to find your perfect fit and style
                 </p>
               </div>
               <div className="space-y-3">
-                <h4 className="text-lg font-light text-foreground">Custom Design</h4>
+                <h4 className="text-lg font-light text-foreground">Bridal Consultation</h4>
                 <p className="text-muted-foreground text-sm">
-                  Work with our designers to create a unique piece just for you
+                  Curated bridal lingerie selections for your special day
                 </p>
               </div>
               <div className="space-y-3">
-                <h4 className="text-lg font-light text-foreground">Expert Services</h4>
+                <h4 className="text-lg font-light text-foreground">Expert Alterations</h4>
                 <p className="text-muted-foreground text-sm">
-                  Professional appraisals, repairs, and maintenance services
+                  Professional tailoring to ensure the perfect fit
                 </p>
               </div>
             </div>
             
             <div className="pt-8">
               <Button size="lg" className="rounded-none">
-                Schedule Your Appointment
+                Schedule Your Fitting
               </Button>
             </div>
           </div>
@@ -129,8 +129,8 @@ const StoreLocator = () => {
           <div className="bg-muted/10 rounded-lg p-8">
             <h3 className="text-xl font-light text-foreground mb-4">Can't visit in person?</h3>
             <p className="text-muted-foreground mb-6">
-              Book a virtual consultation with one of our jewelry experts. We'll showcase pieces via video call, 
-              answer your questions, and help you make the perfect selection from the comfort of your home.
+              Book a virtual consultation with one of our lingerie experts. We'll showcase pieces via video call, 
+              help you find your perfect size, and guide you through our collections from the comfort of your home.
             </p>
             <Button variant="outline" className="rounded-none">
               Book Virtual Consultation

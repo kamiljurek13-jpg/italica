@@ -7,41 +7,41 @@ const FiftyFiftySection = () => {
     <section className="w-full mb-16 px-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Link to="/category/earrings" className="block">
+          <Link to="/category/bras" className="block">
             <div className="w-full aspect-square mb-3 overflow-hidden">
               <img 
                 src={earringsCollection} 
-                alt="Earrings collection" 
+                alt="Lace lingerie collection" 
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               />
             </div>
           </Link>
           <div className="">
             <h3 className="text-sm font-normal text-foreground mb-1">
-              Organic Forms
+              Italian Lace
             </h3>
             <p className="text-sm font-light text-foreground">
-              Nature-inspired pieces with fluid, sculptural details
+              Delicate handcrafted lace from the finest Italian ateliers
             </p>
           </div>
         </div>
 
         <div>
-          <Link to="/category/bracelets" className="block">
+          <Link to="/category/bodysuits" className="block">
             <div className="w-full aspect-square mb-3 overflow-hidden">
               <img 
                 src={linkBracelet} 
-                alt="Chain link bracelet" 
+                alt="Silk bodysuit collection" 
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               />
             </div>
           </Link>
           <div className="">
             <h3 className="text-sm font-normal text-foreground mb-1">
-              Chain Collection
+              Silk Collection
             </h3>
             <p className="text-sm font-light text-foreground">
-              Refined links and connections in precious metals
+              Pure mulberry silk pieces with a second-skin feel
             </p>
           </div>
         </div>

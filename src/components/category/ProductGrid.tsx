@@ -19,178 +19,31 @@ interface Product {
   isNew?: boolean;
 }
 
-// Extended product list for category page
 const products: Product[] = [
-  {
-    id: 1,
-    name: "Pantheon",
-    category: "Earrings",
-    price: "€2,850",
-    image: pantheonImage,
-    isNew: true,
-  },
-  {
-    id: 2,
-    name: "Eclipse",
-    category: "Bracelets",
-    price: "€3,200",
-    image: eclipseImage,
-  },
-  {
-    id: 3,
-    name: "Halo",
-    category: "Earrings",
-    price: "€1,950",
-    image: haloImage,
-    isNew: true,
-  },
-  {
-    id: 4,
-    name: "Oblique",
-    category: "Earrings",
-    price: "€1,650",
-    image: obliqueImage,
-  },
-  {
-    id: 5,
-    name: "Lintel",
-    category: "Earrings",
-    price: "€2,250",
-    image: lintelImage,
-  },
-  {
-    id: 6,
-    name: "Shadowline",
-    category: "Bracelets",
-    price: "€3,950",
-    image: shadowlineImage,
-  },
-  {
-    id: 7,
-    name: "Meridian",
-    category: "Earrings",
-    price: "€2,450",
-    image: pantheonImage,
-  },
-  {
-    id: 8,
-    name: "Vertex",
-    category: "Bracelets",
-    price: "€2,800",
-    image: eclipseImage,
-  },
-  {
-    id: 9,
-    name: "Apex",
-    category: "Earrings",
-    price: "€1,550",
-    image: haloImage,
-  },
-  {
-    id: 10,
-    name: "Zenith",
-    category: "Earrings",
-    price: "€1,850",
-    image: obliqueImage,
-  },
-  {
-    id: 11,
-    name: "Prism",
-    category: "Earrings",
-    price: "€2,050",
-    image: lintelImage,
-  },
-  {
-    id: 12,
-    name: "Radiant",
-    category: "Bracelets",
-    price: "€3,650",
-    image: shadowlineImage,
-  },
-  {
-    id: 13,
-    name: "Stellar",
-    category: "Earrings",
-    price: "€2,150",
-    image: pantheonImage,
-  },
-  {
-    id: 14,
-    name: "Cosmos",
-    category: "Bracelets",
-    price: "€2,950",
-    image: eclipseImage,
-  },
-  {
-    id: 15,
-    name: "Aurora",
-    category: "Earrings",
-    price: "€1,750",
-    image: haloImage,
-  },
-  {
-    id: 16,
-    name: "Nebula",
-    category: "Earrings",
-    price: "€1,850",
-    image: obliqueImage,
-  },
-  {
-    id: 17,
-    name: "Orbit",
-    category: "Earrings",
-    price: "€2,350",
-    image: lintelImage,
-  },
-  {
-    id: 18,
-    name: "Galaxy",
-    category: "Bracelets",
-    price: "€3,450",
-    image: shadowlineImage,
-  },
-  {
-    id: 19,
-    name: "Lunar",
-    category: "Earrings",
-    price: "€2,050",
-    image: pantheonImage,
-  },
-  {
-    id: 20,
-    name: "Solar",
-    category: "Bracelets",
-    price: "€3,150",
-    image: eclipseImage,
-  },
-  {
-    id: 21,
-    name: "Astral",
-    category: "Earrings",
-    price: "€1,650",
-    image: haloImage,
-  },
-  {
-    id: 22,
-    name: "Cosmic",
-    category: "Earrings",
-    price: "€1,950",
-    image: obliqueImage,
-  },
-  {
-    id: 23,
-    name: "Celestial",
-    category: "Earrings",
-    price: "€2,250",
-    image: lintelImage,
-  },
-  {
-    id: 24,
-    name: "Ethereal",
-    category: "Bracelets",
-    price: "€3,750",
-    image: shadowlineImage,
-  },
+  { id: 1, name: "Serafina", category: "Bras", price: "€185", image: pantheonImage, isNew: true },
+  { id: 2, name: "Valentina", category: "Briefs", price: "€95", image: eclipseImage },
+  { id: 3, name: "Aurora", category: "Bodysuits", price: "€245", image: haloImage, isNew: true },
+  { id: 4, name: "Bianca", category: "Bras", price: "€165", image: obliqueImage },
+  { id: 5, name: "Chiara", category: "Sets", price: "€320", image: lintelImage },
+  { id: 6, name: "Donatella", category: "Sleepwear", price: "€275", image: shadowlineImage },
+  { id: 7, name: "Eleonora", category: "Bras", price: "€195", image: pantheonImage },
+  { id: 8, name: "Francesca", category: "Briefs", price: "€85", image: eclipseImage },
+  { id: 9, name: "Giulia", category: "Bodysuits", price: "€255", image: haloImage },
+  { id: 10, name: "Isabella", category: "Bras", price: "€175", image: obliqueImage },
+  { id: 11, name: "Lucia", category: "Sets", price: "€340", image: lintelImage },
+  { id: 12, name: "Margherita", category: "Sleepwear", price: "€295", image: shadowlineImage },
+  { id: 13, name: "Nicoletta", category: "Bras", price: "€210", image: pantheonImage },
+  { id: 14, name: "Olivia", category: "Briefs", price: "€105", image: eclipseImage },
+  { id: 15, name: "Patrizia", category: "Bodysuits", price: "€265", image: haloImage },
+  { id: 16, name: "Raffaella", category: "Bras", price: "€155", image: obliqueImage },
+  { id: 17, name: "Sofia", category: "Sets", price: "€310", image: lintelImage },
+  { id: 18, name: "Teresa", category: "Sleepwear", price: "€285", image: shadowlineImage },
+  { id: 19, name: "Viviana", category: "Bras", price: "€190", image: pantheonImage },
+  { id: 20, name: "Alessia", category: "Briefs", price: "€110", image: eclipseImage },
+  { id: 21, name: "Beatrice", category: "Bodysuits", price: "€235", image: haloImage },
+  { id: 22, name: "Camilla", category: "Bras", price: "€180", image: obliqueImage },
+  { id: 23, name: "Diana", category: "Sets", price: "€350", image: lintelImage },
+  { id: 24, name: "Elena", category: "Sleepwear", price: "€260", image: shadowlineImage },
 ];
 
 const ProductGrid = () => {
@@ -210,7 +63,7 @@ const ProductGrid = () => {
                       className="w-full h-full object-cover transition-all duration-300 group-hover:opacity-0"
                     />
                     <img
-                      src={product.category === "Earrings" ? organicEarring : linkBracelet}
+                      src={product.category === "Briefs" || product.category === "Sleepwear" ? linkBracelet : organicEarring}
                       alt={`${product.name} lifestyle`}
                       className="absolute inset-0 w-full h-full object-cover transition-all duration-300 opacity-0 group-hover:opacity-100"
                     />

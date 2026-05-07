@@ -17,7 +17,7 @@ const Sustainability = () => {
         <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
         <PageHeader 
           title="Sustainability" 
-          subtitle="Creating beautiful jewelry while protecting our planet for future generations"
+          subtitle="Creating beautiful lingerie while protecting our planet for future generations"
         />
         
         <ContentSection title="Our Environmental Commitment">
@@ -25,13 +25,13 @@ const Sustainability = () => {
             <div className="space-y-6">
               <h3 className="text-xl font-light text-foreground">Ethical Sourcing</h3>
               <p className="text-muted-foreground leading-relaxed">
-                We partner only with suppliers who share our commitment to ethical practices. Every gemstone and precious metal in our collection is sourced responsibly, with full transparency in our supply chain.
+                We partner only with Italian and European mills who share our commitment to ethical practices. Every fabric in our collection — from Leavers lace to mulberry silk — is sourced responsibly with full transparency in our supply chain.
               </p>
             </div>
             <div className="space-y-6">
-              <h3 className="text-xl font-light text-foreground">Recycled Materials</h3>
+              <h3 className="text-xl font-light text-foreground">Eco-Friendly Materials</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Over 80% of our precious metals come from recycled sources, reducing the environmental impact of mining while maintaining the highest quality standards for our jewelry.
+                Over 60% of our fabrics come from certified sustainable sources. We prioritize organic cotton, recycled lace, and eco-certified silk, reducing environmental impact while maintaining the highest quality standards.
               </p>
             </div>
           </div>
@@ -41,7 +41,7 @@ const Sustainability = () => {
             <div className="grid md:grid-cols-3 gap-8">
               <div>
                 <div className="text-3xl font-light text-primary mb-2">100%</div>
-                <p className="text-sm text-muted-foreground">Carbon neutral operations by 2025</p>
+                <p className="text-sm text-muted-foreground">Carbon neutral operations by 2026</p>
               </div>
               <div>
                 <div className="text-3xl font-light text-primary mb-2">90%</div>
@@ -58,20 +58,20 @@ const Sustainability = () => {
         <ContentSection title="Circular Economy">
           <div className="space-y-8">
             <p className="text-lg text-muted-foreground leading-relaxed">
-              We believe in the power of circular design - creating jewelry that can be treasured, repaired, and eventually recycled into new pieces.
+              We believe in creating lingerie that lasts — pieces you'll treasure for years, not seasons.
             </p>
             
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <h3 className="text-lg font-light text-foreground">Lifetime Care</h3>
                 <p className="text-muted-foreground">
-                  Every piece comes with our lifetime care promise, including professional cleaning, repairs, and resizing services.
+                  Every piece comes with our lifetime care promise, including professional repairs and restoration services at our Milano atelier.
                 </p>
               </div>
               <div className="space-y-4">
                 <h3 className="text-lg font-light text-foreground">Take-Back Program</h3>
                 <p className="text-muted-foreground">
-                  When you're ready for something new, we'll take back your LINEA jewelry to be recycled into future pieces.
+                  When you're ready for something new, we'll take back your Italica pieces to be recycled into future collections.
                 </p>
               </div>
             </div>
@@ -86,13 +86,13 @@ const Sustainability = () => {
             
             <div className="grid md:grid-cols-4 gap-8 items-center">
               <div className="h-16 w-32 bg-muted/10 rounded-lg flex items-center justify-center">
-                <span className="text-xs text-muted-foreground">RJC Certified</span>
+                <span className="text-xs text-muted-foreground">OEKO-TEX</span>
               </div>
               <div className="h-16 w-32 bg-muted/10 rounded-lg flex items-center justify-center">
                 <span className="text-xs text-muted-foreground">B Corp</span>
               </div>
               <div className="h-16 w-32 bg-muted/10 rounded-lg flex items-center justify-center">
-                <span className="text-xs text-muted-foreground">SCS Certified</span>
+                <span className="text-xs text-muted-foreground">GOTS</span>
               </div>
               <div className="h-16 w-32 bg-muted/10 rounded-lg flex items-center justify-center">
                 <span className="text-xs text-muted-foreground">Fair Trade</span>

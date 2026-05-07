@@ -50,18 +50,19 @@ const Checkout = () => {
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
-      name: "Pantheon Ring",
-      price: "€2,450",
+      name: "Serafina Bra",
+      price: "€185",
       quantity: 1,
       image: pantheonImage,
-      size: "54 EU / 7 US"
+      size: "M / IT 3"
     },
     {
       id: 2,
-      name: "Eclipse Earrings", 
-      price: "€1,850",
+      name: "Valentina Briefs", 
+      price: "€95",
       quantity: 1,
-      image: eclipseImage
+      image: eclipseImage,
+      size: "S"
     }
   ]);
 
