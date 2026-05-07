@@ -4,9 +4,9 @@ const StatusBar = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   
   const usps = [
-    "Free shipping over €50",
-    "365 days warranty",
-    "+100,000 happy customers"
+    "Free shipping over €100",
+    "Handcrafted in Milano",
+    "+50,000 happy customers across Europe"
   ];
 
   useEffect(() => {

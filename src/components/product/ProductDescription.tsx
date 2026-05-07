@@ -34,23 +34,19 @@ const ProductDescription = () => {
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
           <span>Description</span>
-          {isDescriptionOpen ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
+          {isDescriptionOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </Button>
         {isDescriptionOpen && (
           <div className="pb-6 space-y-4">
             <p className="text-sm font-light text-muted-foreground leading-relaxed">
-              The Pantheon earrings embody architectural elegance with their clean, geometric design. 
-              Inspired by classical Roman architecture, these statement pieces feature a sophisticated 
-              interplay of curves and angles that catch and reflect light beautifully.
+              The Serafina bra is the crown jewel of our Italian Lace collection. Crafted from 
+              the finest Leavers lace sourced from traditional Italian mills, this piece embodies 
+              the perfect balance of delicacy and support.
             </p>
             <p className="text-sm font-light text-muted-foreground leading-relaxed">
-              Each earring is meticulously crafted from premium sterling silver with an 18k gold 
-              plating, ensuring both durability and luxury. The minimalist aesthetic makes them 
-              perfect for both everyday wear and special occasions.
+              The silk-lined cups provide a luxurious feel against the skin, while the intricate 
+              lace detailing creates a stunning silhouette. Designed in our Milano atelier, each 
+              piece undergoes meticulous quality checks to ensure perfection.
             </p>
           </div>
         )}
@@ -64,29 +60,25 @@ const ProductDescription = () => {
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
           <span>Product Details</span>
-          {isDetailsOpen ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
+          {isDetailsOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </Button>
         {isDetailsOpen && (
           <div className="pb-6 space-y-3">
             <div className="flex justify-between">
               <span className="text-sm font-light text-muted-foreground">SKU</span>
-              <span className="text-sm font-light text-foreground">LE-PTH-001</span>
+              <span className="text-sm font-light text-foreground">IT-SRF-001</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm font-light text-muted-foreground">Collection</span>
-              <span className="text-sm font-light text-foreground">Architectural Series</span>
+              <span className="text-sm font-light text-foreground">Italian Lace</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm font-light text-muted-foreground">Closure</span>
-              <span className="text-sm font-light text-foreground">Post and butterfly back</span>
+              <span className="text-sm font-light text-foreground">Hook and eye, 3 positions</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-light text-muted-foreground">Hypoallergenic</span>
-              <span className="text-sm font-light text-foreground">Yes</span>
+              <span className="text-sm font-light text-muted-foreground">Composition</span>
+              <span className="text-sm font-light text-foreground">72% Silk, 28% Lace</span>
             </div>
           </div>
         )}
@@ -100,22 +92,18 @@ const ProductDescription = () => {
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
           <span>Care & Cleaning</span>
-          {isCareOpen ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
+          {isCareOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </Button>
         {isCareOpen && (
           <div className="pb-6 space-y-4">
             <ul className="space-y-2">
-              <li className="text-sm font-light text-muted-foreground">• Clean with a soft, dry cloth after each wear</li>
-              <li className="text-sm font-light text-muted-foreground">• Avoid contact with perfumes, lotions, and cleaning products</li>
-              <li className="text-sm font-light text-muted-foreground">• Store in the provided jewelry pouch when not wearing</li>
-              <li className="text-sm font-light text-muted-foreground">• Remove before swimming, exercising, or showering</li>
+              <li className="text-sm font-light text-muted-foreground">• Hand wash in cold water with gentle detergent</li>
+              <li className="text-sm font-light text-muted-foreground">• Do not bleach or tumble dry</li>
+              <li className="text-sm font-light text-muted-foreground">• Lay flat to dry on a soft towel</li>
+              <li className="text-sm font-light text-muted-foreground">• Store in the provided silk pouch</li>
             </ul>
             <p className="text-sm font-light text-muted-foreground">
-              For professional cleaning, visit your local jeweler or contact our customer service team.
+              For best results, use a lingerie wash bag if machine washing on a delicate cycle.
             </p>
           </div>
         )}
@@ -132,42 +120,30 @@ const ProductDescription = () => {
             <span>Customer Reviews</span>
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => (
-                <CustomStar
-                  key={star}
-                  filled={star <= 4.8}
-                />
+                <CustomStar key={star} filled={star <= 4.8} />
               ))}
               <span className="text-sm font-light text-muted-foreground ml-1">4.8</span>
             </div>
           </div>
-          {isReviewsOpen ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
+          {isReviewsOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </Button>
         {isReviewsOpen && (
           <div className="pb-6 space-y-6">
-            {/* Review Product Button */}
             <ReviewProduct />
 
-            {/* Reviews List */}
             <div className="space-y-6">
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <CustomStar
-                        key={star}
-                        filled={true}
-                      />
+                      <CustomStar key={star} filled={true} />
                     ))}
                   </div>
-                  <span className="text-sm font-light text-muted-foreground">Sarah M.</span>
+                  <span className="text-sm font-light text-muted-foreground">Giulia M.</span>
                 </div>
                 <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                  "Absolutely stunning earrings! The quality is exceptional and they go with everything. 
-                  The architectural design is so unique and I get compliments every time I wear them."
+                  "The most beautiful bra I've ever owned. The lace is incredibly soft and the fit is 
+                  perfect. You can tell this is true Italian craftsmanship."
                 </p>
               </div>
 
@@ -175,17 +151,14 @@ const ProductDescription = () => {
                 <div className="flex items-center gap-2">
                   <div className="flex items-center">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <CustomStar
-                        key={star}
-                        filled={star <= 4}
-                      />
+                      <CustomStar key={star} filled={star <= 4} />
                     ))}
                   </div>
-                  <span className="text-sm font-light text-muted-foreground">Emma T.</span>
+                  <span className="text-sm font-light text-muted-foreground">Sophie L.</span>
                 </div>
                 <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                  "Beautiful craftsmanship and comfortable to wear all day. The gold plating has held up 
-                  perfectly after months of regular wear. Highly recommend!"
+                  "Luxurious quality and so comfortable. I ordered my usual size and it fits like a dream. 
+                  The silk lining is a gorgeous touch."
                 </p>
               </div>
 
@@ -193,17 +166,14 @@ const ProductDescription = () => {
                 <div className="flex items-center gap-2">
                   <div className="flex items-center">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <CustomStar
-                        key={star}
-                        filled={true}
-                      />
+                      <CustomStar key={star} filled={true} />
                     ))}
                   </div>
-                  <span className="text-sm font-light text-muted-foreground">Jessica R.</span>
+                  <span className="text-sm font-light text-muted-foreground">Ana R.</span>
                 </div>
                 <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                  "These earrings are a work of art. The minimalist design is elegant and sophisticated. 
-                  Perfect weight and the packaging was beautiful too."
+                  "Worth every euro. The packaging alone is stunning, and the bra itself is a work of art. 
+                  I've already ordered two more pieces from Italica."
                 </p>
               </div>
             </div>
