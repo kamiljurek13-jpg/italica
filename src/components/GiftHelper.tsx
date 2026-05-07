@@ -12,20 +12,20 @@ type Mood = 'sleepy' | 'sexy' | 'daily';
 const moodConfig = {
   sleepy: {
     icon: Moon,
-    label: 'Sleepy',
-    description: 'Soft, comfortable pieces for relaxation',
+    label: 'Relaks',
+    description: 'Miękkie, wygodne rzeczy do odpoczynku',
     color: 'bg-blue-500 hover:bg-blue-600',
   },
   sexy: {
     icon: Flame,
-    label: 'Sexy',
-    description: 'Bold, statement pieces that turn heads',
+    label: 'Zmysłowość',
+    description: 'Odważne, przyciągające wzrok kreacje',
     color: 'bg-red-500 hover:bg-red-600',
   },
   daily: {
     icon: Coffee,
-    label: 'Daily',
-    description: 'Versatile pieces for everyday elegance',
+    label: 'Codzienność',
+    description: 'Wszechstronne rzeczy na co dzień',
     color: 'bg-amber-500 hover:bg-amber-600',
   },
 };
@@ -65,10 +65,10 @@ const GiftHelper = () => {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Gift className="w-8 h-8 text-primary" />
-            <h2 className="text-4xl font-serif font-light">Gift Helper</h2>
+            <h2 className="text-4xl font-serif font-light">Doradca Prezentów</h2>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Not sure what to choose? Let our AI assistant help you find the perfect piece based on the mood you're looking for.
+            Nie wiesz co wybrać? Nasz asystent AI pomoże Ci znaleźć idealny produkt dopasowany do nastroju.
           </p>
         </div>
 
@@ -108,7 +108,7 @@ const GiftHelper = () => {
           <div className="flex flex-col items-center justify-center py-12">
             <Loader2 className="w-12 h-12 animate-spin text-primary mb-4" />
             <p className="text-lg text-muted-foreground">
-              Finding the perfect pieces for you...
+              Szukamy idealnych produktów dla Ciebie...
             </p>
           </div>
         )}
@@ -122,7 +122,7 @@ const GiftHelper = () => {
               className="mt-4"
               variant="outline"
             >
-              Try Again
+              Spróbuj ponownie
             </Button>
           </div>
         )}
@@ -132,10 +132,10 @@ const GiftHelper = () => {
           <div className="space-y-6">
             <div className="text-center">
               <h3 className="text-2xl font-serif mb-2">
-                Perfect for a {selectedMood} mood
+                Idealne na nastrój: {selectedMood}
               </h3>
               <p className="text-muted-foreground">
-                Here are our AI-curated recommendations just for you
+                Oto rekomendacje AI dobrane specjalnie dla Ciebie
               </p>
             </div>
 
@@ -160,7 +160,7 @@ const GiftHelper = () => {
                       </span>
                       <Link to={`/product/${product.id}`}>
                         <Button variant="outline" size="sm">
-                          View Details
+                          Zobacz szczegóły
                         </Button>
                       </Link>
                     </div>

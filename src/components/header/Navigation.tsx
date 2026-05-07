@@ -1,24 +1,51 @@
-import { ArrowRight, X } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import ShoppingBag from "./ShoppingBag";
 import { useCart } from "@/context/CartContext";
+import productsData from "@/data/products.json";
+import {
+  trackNavigationMenuOpened,
+  trackNavigationCategoryClicked,
+  trackSearchOpened,
+  trackSearchQueryEntered,
+  trackSearchPopularClicked,
+} from "@/lib/amplitude";
 
 const Navigation = () => {
   const { totalItems } = useCart();
+  const navigate = useNavigate();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [offCanvasType, setOffCanvasType] = useState<'favorites' | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
 
+  const searchResults = searchQuery.trim().length > 0
+    ? productsData.filter(p =>
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 8)
+    : [];
+
+  const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (searchQuery.trim().length < 2) return;
+    if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+    searchDebounceRef.current = setTimeout(() => {
+      trackSearchQueryEntered(searchQuery.trim(), searchResults.length);
+    }, 600);
+    return () => { if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current); };
+  }, [searchQuery, searchResults.length]);
+
   const popularSearches = [
-    "Silk Bras",
-    "Lace Bodysuits",
-    "Italian Lace",
-    "Satin Sets",
-    "Bridal Lingerie",
-    "New Collection"
+    "Biustonosze",
+    "Piżamy",
+    "Koszulki nocne",
+    "Pończochy",
+    "Pasy",
+    "Zestawy"
   ];
   
   const navItems = [
@@ -38,20 +65,6 @@ const Navigation = () => {
         { src: "/earrings-collection.png", alt: "Kolekcja Satynowa", label: "Satyna" }
       ]
     },
-    { 
-      name: "About", 
-      href: "/about/our-story",
-      submenuItems: [
-        "Our Story",
-        "Sustainability",
-        "Size Guide",
-        "Customer Care",
-        "Store Locator"
-      ],
-      images: [
-        { src: "/founders.png", alt: "Our Atelier in Milano", label: "Read our story" }
-      ]
-    }
   ];
 
   return (
@@ -66,8 +79,12 @@ const Navigation = () => {
         {/* Mobile hamburger button */}
         <button
           className="lg:hidden p-2 mt-0.5 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
+          onClick={() => {
+            const opening = !isMobileMenuOpen;
+            setIsMobileMenuOpen(opening);
+            trackNavigationMenuOpened(opening ? 'open' : 'close');
+          }}
+          aria-label="Otwórz menu"
         >
           <div className="w-5 h-5 relative">
             <span className={`absolute block w-5 h-px bg-current transform transition-all duration-300 ${
@@ -112,8 +129,13 @@ const Navigation = () => {
         <div className="flex items-center space-x-2">
           <button 
             className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Search"
-            onClick={() => setIsSearchOpen(!isSearchOpen)}
+            aria-label="Szukaj"
+            onClick={() => {
+              const opening = !isSearchOpen;
+              setIsSearchOpen(opening);
+              setSearchQuery("");
+              if (opening) trackSearchOpened();
+            }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -121,7 +143,7 @@ const Navigation = () => {
           </button>
           <button 
             className="hidden lg:block p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Favorites"
+            aria-label="Ulubione"
             onClick={() => setOffCanvasType('favorites')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
@@ -130,7 +152,7 @@ const Navigation = () => {
           </button>
           <button 
             className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200 relative"
-            aria-label="Shopping bag"
+            aria-label="Koszyk"
             onClick={() => setIsShoppingBagOpen(true)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
@@ -153,57 +175,21 @@ const Navigation = () => {
           onMouseLeave={() => setActiveDropdown(null)}
         >
           <div className="px-6 py-8">
-            <div className="flex justify-between w-full">
-              <div className="flex-1">
-                <ul className="space-y-2">
-                   {navItems
-                     .find(item => item.name === activeDropdown)
-                     ?.submenuItems.map((subItem, index) => (
-                      <li key={index}>
-                        <Link 
-                          to={activeDropdown === "About" ? `/about/${subItem.toLowerCase().replace(/\s+/g, '-')}` : `/category/${subItem.toLowerCase()}`}
-                          className="text-nav-foreground hover:text-nav-hover transition-colors duration-200 text-sm font-light block py-2"
-                        >
-                          {subItem}
-                        </Link>
-                      </li>
-                   ))}
-                </ul>
-              </div>
-
-              <div className="flex space-x-6">
-                {navItems
-                  .find(item => item.name === activeDropdown)
-                  ?.images.map((image, index) => {
-                    let linkTo = "/";
-                    if (activeDropdown === "Shop") {
-                      if (image.label === "Lace") linkTo = "/category/bras";
-                      else if (image.label === "Silk") linkTo = "/category/bodysuits";
-                    } else if (activeDropdown === "New in") {
-                      if (image.label === "Serafina Bodysuit") linkTo = "/product/1";
-                      else if (image.label === "Valentina Set") linkTo = "/product/2";
-                    } else if (activeDropdown === "About") {
-                      linkTo = "/about/our-story";
-                    }
-                    
-                    return (
-                      <Link key={index} to={linkTo} className="w-[400px] h-[280px] cursor-pointer group relative overflow-hidden block">
-                        <img 
-                          src={image.src}
-                          alt={image.alt}
-                          className="w-full h-full object-cover transition-opacity duration-200 group-hover:opacity-90"
-                        />
-                        {(activeDropdown === "Shop" || activeDropdown === "New in" || activeDropdown === "About") && (
-                          <div className="absolute bottom-2 left-2 text-white text-xs font-light flex items-center gap-1">
-                            <span>{image.label}</span>
-                            <ArrowRight size={12} />
-                          </div>
-                        )}
-                      </Link>
-                    );
-                  })}
-              </div>
-            </div>
+            <ul className="space-y-2">
+              {navItems
+                .find(item => item.name === activeDropdown)
+                ?.submenuItems.map((subItem, index) => (
+                  <li key={index}>
+                    <Link
+                      to={activeDropdown === "About" ? `/about/${subItem.toLowerCase().replace(/\s+/g, '-')}` : `/category/${subItem.toLowerCase()}`}
+                      className="text-nav-foreground hover:text-nav-hover transition-colors duration-200 text-sm font-light block py-2"
+                      onClick={() => trackNavigationCategoryClicked(subItem, 'desktop_dropdown')}
+                    >
+                      {subItem}
+                    </Link>
+                  </li>
+                ))}
+            </ul>
           </div>
         </div>
       )}
@@ -220,26 +206,56 @@ const Navigation = () => {
                   </svg>
                   <input
                     type="text"
-                    placeholder="Search for lingerie..."
+                    placeholder="Szukaj produktów..."
                     className="flex-1 bg-transparent text-nav-foreground placeholder:text-nav-foreground/60 outline-none text-lg"
                     autoFocus
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
+                  {searchQuery && (
+                    <button onClick={() => setSearchQuery("")} className="p-1 text-nav-foreground/60 hover:text-nav-foreground">
+                      <X size={16} />
+                    </button>
+                  )}
                 </div>
               </div>
 
-              <div>
-                <h3 className="text-nav-foreground text-sm font-light mb-4">Popular Searches</h3>
-                <div className="flex flex-wrap gap-3">
-                  {popularSearches.map((search, index) => (
-                    <button
-                      key={index}
-                      className="text-nav-foreground hover:text-nav-hover text-sm font-light py-2 px-4 border border-border rounded-full transition-colors duration-200 hover:border-nav-hover"
-                    >
-                      {search}
-                    </button>
-                  ))}
+              {searchResults.length > 0 ? (
+                <div>
+                  <h3 className="text-nav-foreground text-sm font-light mb-4">Wyniki ({searchResults.length})</h3>
+                  <ul className="space-y-1">
+                    {searchResults.map((product) => (
+                      <li key={product.id}>
+                        <Link
+                          to={`/product/${product.id}`}
+                          className="flex items-center justify-between py-2 text-sm font-light text-nav-foreground hover:text-nav-hover transition-colors"
+                          onClick={() => { setIsSearchOpen(false); setSearchQuery(""); }}
+                        >
+                          <span>{product.name}</span>
+                          <span className="text-nav-foreground/50 capitalize">{product.category} — {product.price} zł</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
+              ) : searchQuery.trim().length > 0 ? (
+                <p className="text-sm font-light text-nav-foreground/60">Brak wyników dla „{searchQuery}"</p>
+              ) : (
+                <div>
+                  <h3 className="text-nav-foreground text-sm font-light mb-4">Popularne wyszukiwania</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {popularSearches.map((search, index) => (
+                      <button
+                        key={index}
+                        className="text-nav-foreground hover:text-nav-hover text-sm font-light py-2 px-4 border border-border rounded-full transition-colors duration-200 hover:border-nav-hover"
+                        onClick={() => { trackSearchPopularClicked(search); navigate(`/category/${search.toLowerCase()}`); setIsSearchOpen(false); setSearchQuery(""); }}
+                      >
+                        {search}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -265,7 +281,7 @@ const Navigation = () => {
                          key={subIndex}
                          to={item.name === "About" ? `/about/${subItem.toLowerCase().replace(/\s+/g, '-')}` : `/category/${subItem.toLowerCase()}`}
                          className="text-nav-foreground/70 hover:text-nav-hover text-sm font-light block py-1"
-                         onClick={() => setIsMobileMenuOpen(false)}
+                         onClick={() => { setIsMobileMenuOpen(false); trackNavigationCategoryClicked(subItem, 'mobile_menu'); }}
                        >
                          {subItem}
                        </Link>
@@ -297,7 +313,7 @@ const Navigation = () => {
           />
           <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col">
             <div className="flex items-center justify-between p-6 border-b border-border">
-              <h2 className="text-lg font-light text-foreground">Your Favorites</h2>
+              <h2 className="text-lg font-light text-foreground">Twoje ulubione</h2>
               <button
                 onClick={() => setOffCanvasType(null)}
                 className="p-2 text-foreground hover:text-muted-foreground transition-colors"
@@ -308,7 +324,7 @@ const Navigation = () => {
             </div>
             <div className="p-6">
               <p className="text-muted-foreground text-sm mb-6">
-                You haven't added any favorites yet. Browse our collection and click the heart icon to save pieces you love.
+                Nie masz jeszcze żadnych ulubionych. Przeglądaj kolekcję i klikaj serce, żeby zapisywać wybrane produkty.
               </p>
             </div>
           </div>

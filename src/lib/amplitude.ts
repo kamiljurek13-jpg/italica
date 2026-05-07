@@ -36,3 +36,23 @@ export const trackGiftHelperRecommendation = (mood: string, products: any[]) => 
     timestamp: new Date().toISOString(),
   });
 };
+
+export const trackNavigationMenuOpened = (action: 'open' | 'close') => {
+  trackEvent('Navigation Menu Opened', { action });
+};
+
+export const trackNavigationCategoryClicked = (category: string, source: 'desktop_dropdown' | 'mobile_menu') => {
+  trackEvent('Navigation Category Clicked', { category, source });
+};
+
+export const trackSearchOpened = () => {
+  trackEvent('Search Opened');
+};
+
+export const trackSearchQueryEntered = (query: string, resultsCount: number) => {
+  trackEvent('Search Query Entered', { query, results_count: resultsCount });
+};
+
+export const trackSearchPopularClicked = (searchTerm: string) => {
+  trackEvent('Search Popular Clicked', { search_term: searchTerm });
+};

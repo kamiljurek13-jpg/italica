@@ -26,8 +26,8 @@ const ProductGrid = () => {
     'piżamy': 'piżamy',
     'koszulki nocne': 'koszulki nocne',
     'pończochy': 'pończochy',
-    'pasy': 'pasy do pończoch',
-    'zestawy': 'zestawy bielizny'
+    'pasy': 'pasy',
+    'zestawy': 'zestawy'
   };
   
   // Filter products based on category

@@ -17,55 +17,55 @@ const OurStory = () => {
         
         <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
           <PageHeader 
-            title="Our Story" 
-            subtitle="A journey of passion, craftsmanship, and Italian elegance"
+            title="Nasza historia"
+            subtitle="Podróż pełna pasji, rzemiosła i włoskiej elegancji"
           />
           
           <ContentSection>
             <ImageTextBlock
               image="/founders.png"
               imageAlt="Italica founders"
-              title="Born in Milano"
-              content="Italica was born from a shared vision of creating luxury lingerie that celebrates the female form with Italian artistry. Our founders, united by their passion for exceptional fabrics and timeless design, established the brand in the heart of Milano with a commitment to creating pieces that make every woman feel extraordinary."
+              title="Narodziny w Mediolanie"
+              content="Italica powstała ze wspólnej wizji tworzenia luksusowej bielizny, która celebruje kobiecość poprzez włoskie rzemiosło. Nasi założyciele, połączeni pasją do wyjątkowych tkanin i ponadczasowego wzornictwa, osiedlili markę w sercu Mediolanu z misją tworzenia rzeczy, które sprawiają, że każda kobieta czuje się niezwykła."
               imagePosition="left"
             />
           </ContentSection>
 
-          <ContentSection title="Our Heritage">
+          <ContentSection title="Nasze dziedzictwo">
             <div className="grid md:grid-cols-2 gap-12">
               <div className="space-y-6">
-                <h3 className="text-xl font-light text-foreground">Italian Craftsmanship</h3>
+                <h3 className="text-xl font-light text-foreground">Włoskie rzemiosło</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Every piece in our collection is meticulously handcrafted by skilled artisans in our Milano atelier. We honor traditional Italian textile techniques while embracing modern innovation, ensuring each piece meets our exacting standards for quality and beauty.
+                  Każdy element naszej kolekcji jest ręcznie tworzony przez doświadczonych rzemieślników w naszym mediolańskim atelier. Szanujemy tradycyjne włoskie techniki tkackie, łącząc je z nowoczesną innowacyjnością, by każda rzecz spełniała nasze rygorystyczne standardy jakości i piękna.
                 </p>
               </div>
               <div className="space-y-6">
-                <h3 className="text-xl font-light text-foreground">Sustainable Luxury</h3>
+                <h3 className="text-xl font-light text-foreground">Zrównoważony luksus</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  We believe luxury and sustainability can coexist beautifully. Our commitment to ethically sourced fabrics, eco-friendly packaging, and responsible manufacturing ensures that every piece you wear contributes to a more sustainable future.
+                  Wierzymy, że luksus i zrównoważony rozwój mogą pięknie współistnieć. Nasze zaangażowanie w etyczne pozyskiwanie tkanin, ekologiczne opakowania i odpowiedzialną produkcję sprawia, że każda rzecz, którą nosisz, przyczynia się do lepszej przyszłości.
                 </p>
               </div>
             </div>
           </ContentSection>
 
-          <ContentSection title="Our Values">
+          <ContentSection title="Nasze wartości">
             <div className="grid md:grid-cols-3 gap-8">
               <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Excellence</h3>
+                <h3 className="text-lg font-light text-foreground">Doskonałość</h3>
                 <p className="text-muted-foreground">
-                  We pursue perfection in every stitch, from the initial sketch to the final fitting.
+                  Dążymy do perfekcji w każdym ściegu — od pierwszego szkicu po ostatnie przymiarki.
                 </p>
               </div>
               <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Sensuality</h3>
+                <h3 className="text-lg font-light text-foreground">Zmysłowość</h3>
                 <p className="text-muted-foreground">
-                  Each piece is designed to celebrate and empower, creating an intimate connection between fabric and skin.
+                  Każda rzecz jest projektowana z myślą o celebrowaniu kobiecości i tworzeniu intymnej więzi między tkaniną a skórą.
                 </p>
               </div>
               <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Innovation</h3>
+                <h3 className="text-lg font-light text-foreground">Innowacja</h3>
                 <p className="text-muted-foreground">
-                  We continuously evolve our designs and techniques while honoring timeless Italian aesthetic traditions.
+                  Nieustannie rozwijamy nasze projekty i techniki, zachowując jednocześnie ponadczasowe włoskie tradycje estetyczne.
                 </p>
               </div>
             </div>

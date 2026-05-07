@@ -12,7 +12,7 @@ const CheckoutHeader = () => {
             className="flex items-center gap-2 text-foreground hover:text-foreground/80 transition-colors"
           >
             <ChevronLeft className="h-4 w-4" />
-            <span className="text-sm font-light hidden sm:inline">Continue Shopping</span>
+            <span className="text-sm font-light hidden sm:inline">Kontynuuj zakupy</span>
           </Link>
 
           {/* Center - Logo - Absolutely positioned to ensure perfect centering */}
@@ -22,7 +22,7 @@ const CheckoutHeader = () => {
 
           {/* Right side - Support */}
           <div className="text-sm font-light text-foreground">
-            Support
+            Pomoc
           </div>
         </div>
       </div>

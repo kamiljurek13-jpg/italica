@@ -33,20 +33,20 @@ const ProductDescription = () => {
           onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
-          <span>Description</span>
+          <span>Opis</span>
           {isDescriptionOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </Button>
         {isDescriptionOpen && (
           <div className="pb-6 space-y-4">
             <p className="text-sm font-light text-muted-foreground leading-relaxed">
-              The Serafina bra is the crown jewel of our Italian Lace collection. Crafted from 
-              the finest Leavers lace sourced from traditional Italian mills, this piece embodies 
-              the perfect balance of delicacy and support.
+              Biustonosz Serafina to perła naszej kolekcji Włoskiej Koronki. Wykonany z najwyższej
+              jakości koronki Leavers pozyskiwanej z tradycyjnych włoskich przędzalni, łączy w sobie
+              delikatność z doskonałym podtrzymaniem.
             </p>
             <p className="text-sm font-light text-muted-foreground leading-relaxed">
-              The silk-lined cups provide a luxurious feel against the skin, while the intricate 
-              lace detailing creates a stunning silhouette. Designed in our Milano atelier, each 
-              piece undergoes meticulous quality checks to ensure perfection.
+              Miseczki wyłożone jedwabiem zapewniają luksusowe odczucie przy skórze, a misterny wzór
+              koronki tworzy zachwycającą sylwetkę. Każdy egzemplarz projektowany w naszym atelier w
+              Mediolanie przechodzi drobiazgową kontrolę jakości.
             </p>
           </div>
         )}
@@ -59,7 +59,7 @@ const ProductDescription = () => {
           onClick={() => setIsDetailsOpen(!isDetailsOpen)}
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
-          <span>Product Details</span>
+          <span>Szczegóły produktu</span>
           {isDetailsOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </Button>
         {isDetailsOpen && (
@@ -69,16 +69,16 @@ const ProductDescription = () => {
               <span className="text-sm font-light text-foreground">IT-SRF-001</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-light text-muted-foreground">Collection</span>
-              <span className="text-sm font-light text-foreground">Italian Lace</span>
+              <span className="text-sm font-light text-muted-foreground">Kolekcja</span>
+              <span className="text-sm font-light text-foreground">Włoska Koronka</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-light text-muted-foreground">Closure</span>
-              <span className="text-sm font-light text-foreground">Hook and eye, 3 positions</span>
+              <span className="text-sm font-light text-muted-foreground">Zapięcie</span>
+              <span className="text-sm font-light text-foreground">Haftki, 3 pozycje</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-light text-muted-foreground">Composition</span>
-              <span className="text-sm font-light text-foreground">72% Silk, 28% Lace</span>
+              <span className="text-sm font-light text-muted-foreground">Skład</span>
+              <span className="text-sm font-light text-foreground">72% Jedwab, 28% Koronka</span>
             </div>
           </div>
         )}
@@ -91,19 +91,19 @@ const ProductDescription = () => {
           onClick={() => setIsCareOpen(!isCareOpen)}
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
-          <span>Care & Cleaning</span>
+          <span>Pielęgnacja</span>
           {isCareOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </Button>
         {isCareOpen && (
           <div className="pb-6 space-y-4">
             <ul className="space-y-2">
-              <li className="text-sm font-light text-muted-foreground">• Hand wash in cold water with gentle detergent</li>
-              <li className="text-sm font-light text-muted-foreground">• Do not bleach or tumble dry</li>
-              <li className="text-sm font-light text-muted-foreground">• Lay flat to dry on a soft towel</li>
-              <li className="text-sm font-light text-muted-foreground">• Store in the provided silk pouch</li>
+              <li className="text-sm font-light text-muted-foreground">• Prać ręcznie w zimnej wodzie z delikatnym detergentem</li>
+              <li className="text-sm font-light text-muted-foreground">• Nie wybielać ani nie suszyć w suszarce</li>
+              <li className="text-sm font-light text-muted-foreground">• Suszyć płasko na miękkim ręczniku</li>
+              <li className="text-sm font-light text-muted-foreground">• Przechowywać w dołączonym jedwabnym woreczku</li>
             </ul>
             <p className="text-sm font-light text-muted-foreground">
-              For best results, use a lingerie wash bag if machine washing on a delicate cycle.
+              W przypadku prania w pralce używać woreczka do bielizny w programie delikatnym.
             </p>
           </div>
         )}
@@ -117,7 +117,7 @@ const ProductDescription = () => {
           className="w-full h-14 px-0 justify-between hover:bg-transparent font-light rounded-none"
         >
           <div className="flex items-center gap-3">
-            <span>Customer Reviews</span>
+            <span>Opinie klientów</span>
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => (
                 <CustomStar key={star} filled={star <= 4.8} />
@@ -142,8 +142,7 @@ const ProductDescription = () => {
                   <span className="text-sm font-light text-muted-foreground">Giulia M.</span>
                 </div>
                 <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                  "The most beautiful bra I've ever owned. The lace is incredibly soft and the fit is 
-                  perfect. You can tell this is true Italian craftsmanship."
+                  "Najpiękniejszy biustonosz, jaki kiedykolwiek miałam. Koronka jest niesamowicie miękka, a dopasowanie perfekcyjne. Widać, że to prawdziwe włoskie rzemiosło."
                 </p>
               </div>
 
@@ -157,8 +156,7 @@ const ProductDescription = () => {
                   <span className="text-sm font-light text-muted-foreground">Sophie L.</span>
                 </div>
                 <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                  "Luxurious quality and so comfortable. I ordered my usual size and it fits like a dream. 
-                  The silk lining is a gorgeous touch."
+                  "Luksusowa jakość i niesamowity komfort. Zamówiłam swój zwykły rozmiar i leży jak marzenie. Jedwabna podszewka to genialny detal."
                 </p>
               </div>
 
@@ -172,8 +170,7 @@ const ProductDescription = () => {
                   <span className="text-sm font-light text-muted-foreground">Ana R.</span>
                 </div>
                 <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                  "Worth every euro. The packaging alone is stunning, and the bra itself is a work of art. 
-                  I've already ordered two more pieces from Italica."
+                  "Warta każdej złotówki. Samo opakowanie jest zachwycające, a biustonosz to prawdziwe dzieło sztuki. Zamówiłam już dwa kolejne modele z Italica."
                 </p>
               </div>
             </div>

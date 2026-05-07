@@ -16,72 +16,72 @@ const Sustainability = () => {
         
         <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
         <PageHeader 
-          title="Sustainability" 
-          subtitle="Creating beautiful lingerie while protecting our planet for future generations"
+          title="Zrównoważony rozwój"
+          subtitle="Tworzymy piękną bieliznę, dbając o naszą planetę dla przyszłych pokoleń"
         />
         
-        <ContentSection title="Our Environmental Commitment">
+        <ContentSection title="Nasze zobowiązanie ekologiczne">
           <div className="grid md:grid-cols-2 gap-12 mb-16">
             <div className="space-y-6">
-              <h3 className="text-xl font-light text-foreground">Ethical Sourcing</h3>
+              <h3 className="text-xl font-light text-foreground">Etyczne pozyskiwanie surowców</h3>
               <p className="text-muted-foreground leading-relaxed">
-                We partner only with Italian and European mills who share our commitment to ethical practices. Every fabric in our collection — from Leavers lace to mulberry silk — is sourced responsibly with full transparency in our supply chain.
+                Współpracujemy wyłącznie z włoskimi i europejskimi przędzalniami, które podzielają nasze zaangażowanie w etyczne praktyki. Każda tkanina w naszej kolekcji — od koronki Leavers po jedwab z morwy — jest pozyskiwana odpowiedzialnie, z pełną przejrzystością łańcucha dostaw.
               </p>
             </div>
             <div className="space-y-6">
-              <h3 className="text-xl font-light text-foreground">Eco-Friendly Materials</h3>
+              <h3 className="text-xl font-light text-foreground">Ekologiczne materiały</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Over 60% of our fabrics come from certified sustainable sources. We prioritize organic cotton, recycled lace, and eco-certified silk, reducing environmental impact while maintaining the highest quality standards.
+                Ponad 60% naszych tkanin pochodzi z certyfikowanych zrównoważonych źródeł. Stawiamy na bawełnę organiczną, koronkę z recyklingu i jedwab z certyfikatem ekologicznym, minimalizując wpływ na środowisko przy zachowaniu najwyższych standardów jakości.
               </p>
             </div>
           </div>
 
           <div className="bg-muted/10 rounded-lg p-8">
-            <h3 className="text-2xl font-light text-foreground mb-6">Our Impact Goals</h3>
+            <h3 className="text-2xl font-light text-foreground mb-6">Nasze cele</h3>
             <div className="grid md:grid-cols-3 gap-8">
               <div>
                 <div className="text-3xl font-light text-primary mb-2">100%</div>
-                <p className="text-sm text-muted-foreground">Carbon neutral operations by 2026</p>
+                <p className="text-sm text-muted-foreground">Neutralność węglowa do 2026 roku</p>
               </div>
               <div>
                 <div className="text-3xl font-light text-primary mb-2">90%</div>
-                <p className="text-sm text-muted-foreground">Recycled packaging materials</p>
+                <p className="text-sm text-muted-foreground">Opakowania z materiałów z recyklingu</p>
               </div>
               <div>
                 <div className="text-3xl font-light text-primary mb-2">Zero</div>
-                <p className="text-sm text-muted-foreground">Waste to landfill policy</p>
+                <p className="text-sm text-muted-foreground">Polityka zerowych odpadów na wysypiska</p>
               </div>
             </div>
           </div>
         </ContentSection>
 
-        <ContentSection title="Circular Economy">
+        <ContentSection title="Gospodarka o obiegu zamkniętym">
           <div className="space-y-8">
             <p className="text-lg text-muted-foreground leading-relaxed">
-              We believe in creating lingerie that lasts — pieces you'll treasure for years, not seasons.
+              Wierzymy w tworzenie bielizny, która trwa — rzeczy, które będziesz cenić przez lata, nie sezony.
             </p>
-            
+
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Lifetime Care</h3>
+                <h3 className="text-lg font-light text-foreground">Dożywotnia opieka</h3>
                 <p className="text-muted-foreground">
-                  Every piece comes with our lifetime care promise, including professional repairs and restoration services at our Milano atelier.
+                  Każda rzecz objęta jest dożywotnią gwarancją opieki, w tym profesjonalnymi naprawami i renowacją w naszym mediolańskim atelier.
                 </p>
               </div>
               <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Take-Back Program</h3>
+                <h3 className="text-lg font-light text-foreground">Program zwrotu</h3>
                 <p className="text-muted-foreground">
-                  When you're ready for something new, we'll take back your Italica pieces to be recycled into future collections.
+                  Kiedy będziesz gotowa na coś nowego, odbierzemy Twoje produkty Italica i poddamy je recyklingowi na potrzeby przyszłych kolekcji.
                 </p>
               </div>
             </div>
           </div>
         </ContentSection>
 
-        <ContentSection title="Certifications & Partnerships">
+        <ContentSection title="Certyfikaty i partnerstwa">
           <div className="space-y-8">
             <p className="text-muted-foreground leading-relaxed">
-              Our commitment to sustainability is verified through partnerships with leading organizations and certifications that hold us accountable to the highest standards.
+              Nasze zaangażowanie w zrównoważony rozwój jest weryfikowane przez partnerstwa z wiodącymi organizacjami i certyfikaty, które rozliczają nas z najwyższych standardów.
             </p>
             
             <div className="grid md:grid-cols-4 gap-8 items-center">

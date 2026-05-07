@@ -17,31 +17,31 @@ const SizeGuide = () => {
         
         <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
         <PageHeader 
-          title="Size Guide" 
-          subtitle="Find your perfect fit with our comprehensive sizing guide"
+          title="Tabela rozmiarów"
+          subtitle="Znajdź swój idealny rozmiar z naszym przewodnikiem"
         />
         
-        <ContentSection title="Bra Sizing">
+        <ContentSection title="Rozmiary biustonoszy">
           <div className="space-y-8">
             <div className="bg-muted/10 rounded-lg p-8">
-              <h3 className="text-xl font-light text-foreground mb-6">How to Measure</h3>
+              <h3 className="text-xl font-light text-foreground mb-6">Jak zmierzyć?</h3>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <h4 className="font-medium text-foreground">Band Size</h4>
+                  <h4 className="font-medium text-foreground">Obwód pod biustem</h4>
                   <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                    <li>Wear an unpadded bra or no bra</li>
-                    <li>Measure around your ribcage, just under your bust</li>
-                    <li>Keep the tape snug but comfortable</li>
-                    <li>Round to the nearest whole number</li>
+                    <li>Załóż biustonosz bez wypełnienia lub zostań bez niego</li>
+                    <li>Zmierz obwód klatki piersiowej tuż pod biustem</li>
+                    <li>Trzymaj taśmę przylegającą, ale wygodnie</li>
+                    <li>Zaokrąglij do najbliższej pełnej liczby</li>
                   </ol>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="font-medium text-foreground">Cup Size</h4>
+                  <h4 className="font-medium text-foreground">Rozmiar miseczki</h4>
                   <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                    <li>Measure around the fullest part of your bust</li>
-                    <li>Subtract your band measurement from this number</li>
-                    <li>The difference determines your cup size</li>
-                    <li>Refer to the chart below</li>
+                    <li>Zmierz obwód w najszerszym miejscu biustu</li>
+                    <li>Odejmij od tego wymiaru obwód pod biustem</li>
+                    <li>Różnica określa rozmiar miseczki</li>
+                    <li>Odnieś się do tabeli poniżej</li>
                   </ol>
                 </div>
               </div>
@@ -51,11 +51,11 @@ const SizeGuide = () => {
               <table className="w-full border-collapse border border-border">
                 <thead>
                   <tr className="bg-muted/20">
-                    <th className="border border-border p-3 text-left font-light">IT Size</th>
-                    <th className="border border-border p-3 text-left font-light">EU Size</th>
-                    <th className="border border-border p-3 text-left font-light">UK Size</th>
-                    <th className="border border-border p-3 text-left font-light">US Size</th>
-                    <th className="border border-border p-3 text-left font-light">Band (cm)</th>
+                    <th className="border border-border p-3 text-left font-light">IT</th>
+                    <th className="border border-border p-3 text-left font-light">EU</th>
+                    <th className="border border-border p-3 text-left font-light">UK</th>
+                    <th className="border border-border p-3 text-left font-light">US</th>
+                    <th className="border border-border p-3 text-left font-light">Obwód (cm)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -81,74 +81,73 @@ const SizeGuide = () => {
           </div>
         </ContentSection>
 
-        <ContentSection title="Briefs & Bodysuits Sizing">
+        <ContentSection title="Rozmiary bielizny i kombinezonów">
           <div className="grid md:grid-cols-2 gap-12">
             <div className="space-y-6">
-              <h3 className="text-xl font-light text-foreground">Briefs & Thongs</h3>
+              <h3 className="text-xl font-light text-foreground">Majtki i stringi</h3>
               <div className="space-y-4">
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">XS</span>
-                  <span className="text-foreground">IT 38 / EU 34 / Waist 60-64cm</span>
+                  <span className="text-foreground">IT 38 / EU 34 / Talia 60-64 cm</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">S</span>
-                  <span className="text-foreground">IT 40 / EU 36 / Waist 64-68cm</span>
+                  <span className="text-foreground">IT 40 / EU 36 / Talia 64-68 cm</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">M</span>
-                  <span className="text-foreground">IT 42 / EU 38 / Waist 68-72cm</span>
+                  <span className="text-foreground">IT 42 / EU 38 / Talia 68-72 cm</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">L</span>
-                  <span className="text-foreground">IT 44 / EU 40 / Waist 72-76cm</span>
+                  <span className="text-foreground">IT 44 / EU 40 / Talia 72-76 cm</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">XL</span>
-                  <span className="text-foreground">IT 46 / EU 42 / Waist 76-80cm</span>
+                  <span className="text-foreground">IT 46 / EU 42 / Talia 76-80 cm</span>
                 </div>
               </div>
             </div>
             
             <div className="space-y-6">
-              <h3 className="text-xl font-light text-foreground">Bodysuits & Sleepwear</h3>
+              <h3 className="text-xl font-light text-foreground">Kombinezony i piżamy</h3>
               <div className="space-y-4">
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">XS</span>
-                  <span className="text-foreground">IT 38 / Bust 80cm / Waist 60cm</span>
+                  <span className="text-foreground">IT 38 / Biust 80 cm / Talia 60 cm</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">S</span>
-                  <span className="text-foreground">IT 40 / Bust 84cm / Waist 64cm</span>
+                  <span className="text-foreground">IT 40 / Biust 84 cm / Talia 64 cm</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">M</span>
-                  <span className="text-foreground">IT 42 / Bust 88cm / Waist 68cm</span>
+                  <span className="text-foreground">IT 42 / Biust 88 cm / Talia 68 cm</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">L</span>
-                  <span className="text-foreground">IT 44 / Bust 92cm / Waist 72cm</span>
+                  <span className="text-foreground">IT 44 / Biust 92 cm / Talia 72 cm</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">XL</span>
-                  <span className="text-foreground">IT 46 / Bust 96cm / Waist 76cm</span>
+                  <span className="text-foreground">IT 46 / Biust 96 cm / Talia 76 cm</span>
                 </div>
               </div>
             </div>
           </div>
         </ContentSection>
 
-        <ContentSection title="Need Help?">
+        <ContentSection title="Potrzebujesz pomocy?">
           <div className="space-y-6">
             <p className="text-muted-foreground">
-              Still unsure about sizing? Our lingerie consultants are here to help you find the perfect fit. 
-              Download our printable size guide or schedule a virtual fitting.
+              Nadal nie jesteś pewna rozmiaru? Nasze konsultantki są do dyspozycji, żeby pomóc Ci znaleźć idealne dopasowanie. Pobierz nasz przewodnik w wersji PDF lub umów się na wirtualne przymiarki.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="outline" className="rounded-none">
-                Download PDF Guide
+                Pobierz PDF
               </Button>
               <Button className="rounded-none">
-                Schedule Fitting
+                Umów przymiarki
               </Button>
             </div>
           </div>

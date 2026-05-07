@@ -38,32 +38,34 @@ interface PexelsSearchResponse {
 const moodKeywords = {
   sleepy: [
     'luxury silk pajamas',
-    'soft satin fabric',
-    'elegant nightwear',
-    'minimalist jewelry soft light',
-    'delicate gold jewelry natural light',
+    'soft satin nightwear',
+    'elegant sleepwear',
+    'comfortable cotton nightgown',
+    'delicate nightwear natural light',
   ],
   sexy: [
     'luxury black lingerie',
     'elegant lace underwear',
-    'dramatic jewelry shadows',
-    'bold gold jewelry black background',
-    'statement jewelry dramatic lighting',
+    'dramatic lingerie shadows',
+    'red satin lingerie',
+    'seductive lingerie set',
   ],
   daily: [
-    'minimalist jewelry white background',
-    'elegant everyday jewelry',
-    'simple gold jewelry natural light',
-    'modern jewelry clean background',
-    'versatile jewelry bright light',
+    'white cotton underwear',
+    'elegant everyday lingerie',
+    'simple white bra',
+    'comfortable daily lingerie',
+    'classic white lingerie',
   ],
 };
 
 const categoryKeywords = {
-  rings: 'ring',
-  earrings: 'earrings',
-  bracelets: 'bracelet',
-  necklaces: 'necklace',
+  biustonosze: 'bra',
+  'piżamy': 'pajamas',
+  'koszulki-nocne': 'nightgown',
+  'pończochy': 'stockings',
+  pasy: 'garter belt',
+  zestawy: 'lingerie set',
 };
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -82,7 +84,7 @@ async function fetchPexelsImage(
 
   try {
     const moodKeywordList = moodKeywords[mood as keyof typeof moodKeywords] || moodKeywords.daily;
-    const categoryKeyword = categoryKeywords[category as keyof typeof categoryKeywords] || 'jewelry';
+    const categoryKeyword = categoryKeywords[category as keyof typeof categoryKeywords] || 'lingerie';
     
     const keywordIndex = index % moodKeywordList.length;
     const searchQuery = `${moodKeywordList[keywordIndex]} ${categoryKeyword}`;

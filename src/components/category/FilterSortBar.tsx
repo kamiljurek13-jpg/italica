@@ -28,16 +28,16 @@ interface FilterSortBarProps {
 const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBarProps) => {
   const [sortBy, setSortBy] = useState("featured");
 
-  const categories = ["Earrings", "Bracelets", "Rings", "Necklaces"];
-  const priceRanges = ["Under €1,000", "€1,000 - €2,000", "€2,000 - €3,000", "Over €3,000"];
-  const materials = ["Gold", "Silver", "Rose Gold", "Platinum"];
+  const categories = ["Biustonosze", "Piżamy", "Koszulki nocne", "Pończochy", "Pasy", "Zestawy"];
+  const priceRanges = ["Do 200 zł", "200–400 zł", "400–600 zł", "Powyżej 600 zł"];
+  const materials = ["Jedwab", "Koronka", "Bawełna", "Satyna"];
 
   return (
     <>
       <section className="w-full px-6 mb-8 border-b border-border pb-4">
         <div className="flex justify-between items-center">
           <p className="text-sm font-light text-muted-foreground">
-            {itemCount} items
+            {itemCount} produktów
           </p>
           
           <div className="flex items-center gap-4">
@@ -48,18 +48,18 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
                   size="sm"
                   className="font-light hover:bg-transparent"
                 >
-                  Filters
+                  Filtry
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-80 bg-background border-none shadow-none">
                 <SheetHeader className="mb-6 border-b border-border pb-4">
-                  <SheetTitle className="text-lg font-light">Filters</SheetTitle>
+                  <SheetTitle className="text-lg font-light">Filtry</SheetTitle>
                 </SheetHeader>
                 
                 <div className="space-y-8">
                   {/* Category Filter */}
                   <div>
-                    <h3 className="text-sm font-light mb-4 text-foreground">Category</h3>
+                    <h3 className="text-sm font-light mb-4 text-foreground">Kategoria</h3>
                     <div className="space-y-3">
                       {categories.map((category) => (
                         <div key={category} className="flex items-center space-x-3">
@@ -76,7 +76,7 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
 
                   {/* Price Filter */}
                   <div>
-                    <h3 className="text-sm font-light mb-4 text-foreground">Price</h3>
+                    <h3 className="text-sm font-light mb-4 text-foreground">Cena</h3>
                     <div className="space-y-3">
                       {priceRanges.map((range) => (
                         <div key={range} className="flex items-center space-x-3">
@@ -93,7 +93,7 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
 
                   {/* Material Filter */}
                   <div>
-                    <h3 className="text-sm font-light mb-4 text-foreground">Material</h3>
+                    <h3 className="text-sm font-light mb-4 text-foreground">Materiał</h3>
                     <div className="space-y-3">
                       {materials.map((material) => (
                         <div key={material} className="flex items-center space-x-3">
@@ -110,10 +110,10 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
 
                   <div className="flex flex-col gap-2 pt-4">
                     <Button variant="ghost" size="sm" className="w-full border-none hover:bg-transparent hover:underline font-normal text-left justify-start">
-                      Apply Filters
+                      Zastosuj filtry
                     </Button>
                     <Button variant="ghost" size="sm" className="w-full border-none hover:bg-transparent hover:underline font-light text-left justify-start">
-                      Clear All
+                      Wyczyść
                     </Button>
                   </div>
                 </div>
@@ -125,11 +125,11 @@ const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBar
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="shadow-none border-none rounded-none bg-background">
-                <SelectItem value="featured" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Featured</SelectItem>
-                <SelectItem value="price-low" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Price: Low to High</SelectItem>
-                <SelectItem value="price-high" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Price: High to Low</SelectItem>
-                <SelectItem value="newest" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Newest</SelectItem>
-                <SelectItem value="name" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Name A-Z</SelectItem>
+                <SelectItem value="featured" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Polecane</SelectItem>
+                <SelectItem value="price-low" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Cena: rosnąco</SelectItem>
+                <SelectItem value="price-high" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Cena: malejąco</SelectItem>
+                <SelectItem value="newest" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Najnowsze</SelectItem>
+                <SelectItem value="name" className="hover:bg-transparent hover:underline data-[state=checked]:bg-transparent data-[state=checked]:underline pl-2 [&>span:first-child]:hidden">Nazwa A-Z</SelectItem>
               </SelectContent>
             </Select>
           </div>

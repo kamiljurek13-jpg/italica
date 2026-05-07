@@ -125,11 +125,11 @@ export default async function handler(
     }
 
     // Create prompt for Claude
-    const prompt = `You are a luxury jewelry gift advisor. A customer is looking for a gift with a "${mood}" mood/vibe.
+    const prompt = `You are a luxury lingerie gift advisor. A customer is looking for a gift with a "${mood}" mood/vibe.
 
 Here are the available products that match this mood:
-${moodProducts.map((p: Product, i: number) => 
-  `${i + 1}. ${p.name} - ${p.category} - $${p.price} - ${p.description}`
+${moodProducts.map((p: Product, i: number) =>
+  `${i + 1}. ${p.name} - ${p.category} - ${p.price} zł - ${p.description}`
 ).join('\n')}
 
 Please select the top 3-4 products that best match the "${mood}" mood and explain why they're perfect for this occasion. Return ONLY a JSON array of product IDs in this exact format:
@@ -139,7 +139,7 @@ Choose products that best embody the "${mood}" feeling.`;
 
     // Call Anthropic API
     const message = await anthropic.messages.create({
-      model: 'claude-3-5-haiku-20241022',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 1024,
       messages: [
         {
