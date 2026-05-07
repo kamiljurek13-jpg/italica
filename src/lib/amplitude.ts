@@ -4,7 +4,6 @@ import { sessionReplayPlugin } from '@amplitude/plugin-session-replay-browser';
 // Initialize Amplitude
 export const initAmplitude = () => {
   const apiKey = import.meta.env.VITE_AMPLITUDE_API_KEY || 'YOUR_AMPLITUDE_API_KEY';
-  amplitude.add(sessionReplayPlugin({ sampleRate: 1 }));
   amplitude.init(apiKey, undefined, {
     defaultTracking: {
       sessions: true,
@@ -13,6 +12,7 @@ export const initAmplitude = () => {
       fileDownloads: true,
     },
   });
+  amplitude.add(sessionReplayPlugin({ sampleRate: 1 }));
 };
 
 // Track events
