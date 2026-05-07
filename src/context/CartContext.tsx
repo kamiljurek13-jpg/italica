@@ -37,7 +37,12 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>(() => {
-    // Load cart from localStorage on init
+    const isNewSession = !sessionStorage.getItem('italica-session');
+    if (isNewSession) {
+      sessionStorage.setItem('italica-session', '1');
+      localStorage.removeItem('italica-cart');
+      return [];
+    }
     const savedCart = localStorage.getItem('italica-cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });

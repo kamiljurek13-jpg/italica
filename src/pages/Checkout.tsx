@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Minus, Plus, CreditCard, Check } from "lucide-react";
 import CheckoutHeader from "../components/header/CheckoutHeader";
 import Footer from "../components/footer/Footer";
@@ -46,7 +47,7 @@ const Checkout = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentComplete, setPaymentComplete] = useState(false);
   
-  const { items: cartItems, updateQuantity, removeFromCart } = useCart();
+  const { items: cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -103,6 +104,7 @@ const Checkout = () => {
     });
 
     setPaymentComplete(true);
+    clearCart();
   };
 
   return (
@@ -639,6 +641,11 @@ const Checkout = () => {
                   </div>
                   <h3 className="text-xl font-light text-foreground mb-2">Zamówienie złożone!</h3>
                   <p className="text-muted-foreground">Dziękujemy za zakup. Potwierdzenie zamówienia zostało wysłane na Twój adres e-mail.</p>
+                  <Link to="/">
+                    <Button variant="outline" className="mt-6 rounded-none font-light">
+                      Wróć na stronę główną
+                    </Button>
+                  </Link>
                  </div>
                )}
              </div>
