@@ -7,7 +7,7 @@ import ProductInfo from "../components/product/ProductInfo";
 import ProductDescription from "../components/product/ProductDescription";
 import ProductCarousel from "../components/content/ProductCarousel";
 import productsData from "@/data/products.json";
-import { trackProductViewed } from "@/lib/amplitude";
+import { trackProductViewed, trackTimeToFirstProduct } from "@/lib/amplitude";
 import { 
   Breadcrumb, 
   BreadcrumbItem, 
@@ -24,6 +24,16 @@ const ProductDetail = () => {
   useEffect(() => {
     if (product) trackProductViewed({ id: product.id, name: product.name, category: product.category, price: product.price });
   }, [product?.id]);
+
+  useEffect(() => {
+    const start = sessionStorage.getItem('ttfp_start');
+    const source = sessionStorage.getItem('ttfp_source') as 'search_icon' | 'gift_helper_icon' | null;
+    if (start && source) {
+      trackTimeToFirstProduct({ ttfp_ms: Date.now() - Number(start), source });
+      sessionStorage.removeItem('ttfp_start');
+      sessionStorage.removeItem('ttfp_source');
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">

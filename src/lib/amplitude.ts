@@ -1,7 +1,7 @@
 import * as amplitude from '@amplitude/analytics-browser';
 import { sessionReplayPlugin } from '@amplitude/plugin-session-replay-browser';
+import { getABGroup, type ABGroup } from '@/hooks/useABGroup';
 
-// Initialize Amplitude
 export const initAmplitude = () => {
   const apiKey = import.meta.env.VITE_AMPLITUDE_API_KEY || 'YOUR_AMPLITUDE_API_KEY';
   amplitude.init(apiKey, undefined, {
@@ -15,26 +15,41 @@ export const initAmplitude = () => {
   amplitude.add(sessionReplayPlugin({ sampleRate: 1 }));
 };
 
-// Track events
-export const trackEvent = (eventName: string, eventProperties?: Record<string, any>) => {
+export const identifyABGroup = (group: ABGroup) => {
+  const identifyObj = new amplitude.Identify();
+  identifyObj.set('ab_group', group);
+  amplitude.identify(identifyObj);
+};
+
+const trackEvent = (eventName: string, eventProperties?: Record<string, unknown>) => {
   amplitude.track(eventName, eventProperties);
 };
 
-// Track Gift Helper mood selection
 export const trackGiftHelperMoodClick = (mood: string) => {
   trackEvent('Gift Helper Mood Selected', {
     mood,
+    ab_group: getABGroup(),
     timestamp: new Date().toISOString(),
   });
 };
 
-// Track Gift Helper product recommendation
-export const trackGiftHelperRecommendation = (mood: string, products: any[]) => {
+export const trackGiftHelperRecommendation = (mood: string, products: { id: string }[]) => {
   trackEvent('Gift Helper Recommendation Generated', {
     mood,
     productCount: products.length,
     productIds: products.map(p => p.id),
+    ab_group: getABGroup(),
     timestamp: new Date().toISOString(),
+  });
+};
+
+export const trackTimeToFirstProduct = (props: {
+  ttfp_ms: number;
+  source: 'search_icon' | 'gift_helper_icon';
+}) => {
+  trackEvent('Time to First Product', {
+    ...props,
+    ab_group: getABGroup(),
   });
 };
 
@@ -63,7 +78,7 @@ export const trackProductViewed = (product: { id: string; name: string; category
 };
 
 export const trackProductAddedToCart = (product: { id: string; name: string; category: string; price: number; quantity: number }) => {
-  trackEvent('Product Added to Cart', product);
+  trackEvent('Product Added to Cart', { ...product, ab_group: getABGroup() });
 };
 
 export const trackOrderCompleted = (order: {
@@ -76,5 +91,6 @@ export const trackOrderCompleted = (order: {
   trackEvent('Order Completed', {
     ...order,
     revenue: order.total,
+    ab_group: getABGroup(),
   });
 };

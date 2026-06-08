@@ -76,7 +76,7 @@ const GiftHelper = () => {
             <h2 className="text-4xl font-serif font-light">Doradca Prezentów</h2>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Nie wiesz co wybrać? Nasz asystent AI pomoże Ci znaleźć idealny produkt dopasowany do nastroju.
+            Nie wiesz co wybrać? Powiedz nam, jaki jest Twój nastrój, a dobierzemy idealne produkty.
           </p>
         </div>
 
@@ -144,7 +144,7 @@ const GiftHelper = () => {
                 Idealne na nastrój: {selectedMood}
               </h3>
               <p className="text-muted-foreground">
-                Oto rekomendacje AI dobrane specjalnie dla Ciebie
+                Oto produkty dobrane specjalnie dla Ciebie
               </p>
             </div>
 

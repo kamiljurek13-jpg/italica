@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ShoppingBag from "./ShoppingBag";
 import { useCart } from "@/context/CartContext";
+import { useABGroup } from "@/hooks/useABGroup";
 import productsData from "@/data/products.json";
 import {
   trackNavigationMenuOpened,
@@ -15,6 +16,7 @@ import {
 const Navigation = () => {
   const { totalItems } = useCart();
   const navigate = useNavigate();
+  const group = useABGroup();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -127,27 +129,38 @@ const Navigation = () => {
 
         {/* Right icons */}
         <div className="flex items-center space-x-2">
-          <Link
-            to="/gift-helper"
-            className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Doradca prezentów"
-          >
-            <Gift className="w-5 h-5" />
-          </Link>
-          <button
-            className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Szukaj"
-            onClick={() => {
-              const opening = !isSearchOpen;
-              setIsSearchOpen(opening);
-              setSearchQuery("");
-              if (opening) trackSearchOpened();
-            }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-            </svg>
-          </button>
+          {group === 'B' ? (
+            <Link
+              to="/gift-helper"
+              className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+              aria-label="Doradca prezentów"
+              onClick={() => {
+                sessionStorage.setItem('ttfp_start', Date.now().toString());
+                sessionStorage.setItem('ttfp_source', 'gift_helper_icon');
+              }}
+            >
+              <Gift className="w-5 h-5" />
+            </Link>
+          ) : (
+            <button
+              className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+              aria-label="Szukaj"
+              onClick={() => {
+                const opening = !isSearchOpen;
+                setIsSearchOpen(opening);
+                setSearchQuery("");
+                if (opening) {
+                  trackSearchOpened();
+                  sessionStorage.setItem('ttfp_start', Date.now().toString());
+                  sessionStorage.setItem('ttfp_source', 'search_icon');
+                }
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+            </button>
+          )}
           <button 
             className="hidden lg:block p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
             aria-label="Ulubione"
@@ -201,8 +214,8 @@ const Navigation = () => {
         </div>
       )}
 
-      {/* Search overlay */}
-      {isSearchOpen && (
+      {/* Search overlay — Group A only */}
+      {group === 'A' && isSearchOpen && (
         <div className="absolute top-full left-0 right-0 bg-nav border-b border-border z-50">
           <div className="px-6 py-8">
             <div className="max-w-2xl mx-auto">
