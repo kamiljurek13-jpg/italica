@@ -6,20 +6,20 @@ import Footer from "../components/footer/Footer";
 import ProductInfo from "../components/product/ProductInfo";
 import ProductDescription from "../components/product/ProductDescription";
 import ProductCarousel from "../components/content/ProductCarousel";
-import productsData from "@/data/products.json";
+import { useProduct } from "@/hooks/useProduct";
 import { trackProductViewed, trackTimeToFirstProduct } from "@/lib/amplitude";
-import { 
-  Breadcrumb, 
-  BreadcrumbItem, 
-  BreadcrumbLink, 
-  BreadcrumbList, 
-  BreadcrumbPage, 
-  BreadcrumbSeparator 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const product = productsData.find(p => p.id === productId);
+  const { data: product, isLoading } = useProduct(productId);
 
   useEffect(() => {
     if (product) trackProductViewed({ id: product.id, name: product.name, category: product.category, price: product.price });
@@ -35,10 +35,25 @@ const ProductDetail = () => {
     }
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="pt-6">
+          <div className="w-full px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+              <div className="w-full aspect-square bg-muted/20 animate-pulse" />
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="pt-6">
         <section className="w-full px-6">
           {/* Breadcrumb - Show above image on smaller screens */}
@@ -53,21 +68,21 @@ const ProductDetail = () => {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link to="/category/earrings">Earrings</Link>
+                    <Link to={`/category/${product?.category}`}>{product?.category}</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Pantheon</BreadcrumbPage>
+                  <BreadcrumbPage>{product?.name}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             <div className="w-full aspect-square overflow-hidden">
               <img
-                src={product?.image}
+                src={product?.image_url}
                 alt={product?.name ?? 'Product image'}
                 className="w-full h-full object-cover"
               />
@@ -79,17 +94,16 @@ const ProductDetail = () => {
             </div>
           </div>
         </section>
-        
+
         <section className="w-full mt-16 lg:mt-24">
           <div className="mb-4 px-6">
             <h2 className="text-sm font-light text-foreground">You might also like</h2>
           </div>
           <ProductCarousel />
         </section>
-        
 
       </main>
-      
+
       <Footer />
     </div>
   );

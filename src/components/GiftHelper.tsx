@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, Gift, Moon, Flame, Coffee } from 'lucide-react';
-import { getProductRecommendations, type Product } from '@/lib/anthropic';
+import { getProductRecommendations } from '@/lib/anthropic';
+import type { Product } from '@/types/product';
+import { useProducts } from '@/hooks/useProducts';
 import { trackGiftHelperMoodClick, trackGiftHelperRecommendation } from '@/lib/amplitude';
-import productsData from '@/data/products.json';
 
 type Mood = 'sleepy' | 'sexy' | 'daily';
 
@@ -36,6 +37,7 @@ const GiftHelper = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { data: productsData = [] } = useProducts();
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,16 +50,12 @@ const GiftHelper = () => {
     setSelectedMood(mood);
     setLoading(true);
     setError(null);
-    
-    // Track the mood selection
+
     trackGiftHelperMoodClick(mood);
 
     try {
-      // Get recommendations from Anthropic
-      const products = await getProductRecommendations(mood, productsData as Product[]);
+      const products = await getProductRecommendations(mood, productsData);
       setRecommendations(products);
-      
-      // Track the recommendations
       trackGiftHelperRecommendation(mood, products);
     } catch (err) {
       console.error('Error getting recommendations:', err);
@@ -92,7 +90,7 @@ const GiftHelper = () => {
                 key={mood}
                 className={`cursor-pointer transition-all duration-300 hover:shadow-lg ${
                   isSelected ? 'ring-2 ring-primary shadow-lg' : ''
-                }`}
+                } ${productsData.length === 0 ? 'opacity-50 pointer-events-none' : ''}`}
                 onClick={() => handleMoodClick(mood)}
               >
                 <CardHeader className="text-center">
@@ -153,7 +151,7 @@ const GiftHelper = () => {
                 <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <div className="aspect-square overflow-hidden bg-muted">
                     <img
-                      src={product.image}
+                      src={product.image_url}
                       alt={product.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     />

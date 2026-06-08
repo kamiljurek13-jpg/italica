@@ -1,14 +1,4 @@
-// Updated to use Vercel serverless function instead of direct API calls
-
-export interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  description: string;
-  image: string;
-  mood: string[];
-}
+import type { Product } from '@/types/product';
 
 const shuffle = <T>(arr: T[]): T[] => {
   const a = [...arr];
@@ -20,7 +10,7 @@ const shuffle = <T>(arr: T[]): T[] => {
 };
 
 const filterByMood = (mood: string, products: Product[]): Product[] =>
-  shuffle(products.filter(p => p.mood.includes(mood.toLowerCase()))).slice(0, 4);
+  shuffle(products.filter(p => p.mood.includes(mood.toLowerCase() as Product['mood'][number]))).slice(0, 4);
 
 export const getProductRecommendations = async (
   mood: string,
@@ -34,7 +24,7 @@ export const getProductRecommendations = async (
     const response = await fetch('/api/recommendations', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mood, products }),
+      body: JSON.stringify({ mood }),
     });
 
     if (!response.ok) throw new Error(`API error: ${response.status}`);

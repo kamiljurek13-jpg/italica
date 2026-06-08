@@ -5,22 +5,12 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import productsData from "@/data/products.json";
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  description: string;
-  image: string;
-  color: string;
-  mood: string[];
-}
-
-const products: Product[] = productsData.slice(0, 6);
+import { useProducts } from "@/hooks/useProducts";
 
 const ProductCarousel = () => {
+  const { data: allProducts = [] } = useProducts();
+  const products = allProducts.slice(0, 6);
+
   return (
     <section className="w-full mb-16 px-6">
       <Carousel
@@ -31,7 +21,7 @@ const ProductCarousel = () => {
           className="w-full"
         >
           <CarouselContent className="">
-            {products.map((product) => (
+            {products.map((product, index) => (
                <CarouselItem
                  key={product.id}
                  className="basis-1/2 md:basis-1/3 lg:basis-1/4 pr-2 md:pr-4"
@@ -41,12 +31,12 @@ const ProductCarousel = () => {
                     <CardContent className="p-0">
                       <div className="aspect-square mb-3 overflow-hidden bg-muted/10 relative">
                         <img
-                          src={product.image}
+                          src={product.image_url}
                           alt={product.name}
                           className="w-full h-full object-cover transition-all duration-300"
                         />
                         <div className="absolute inset-0 bg-black/[0.03]"></div>
-                        {(product.id === "1" || product.id === "3") && (
+                        {(index === 0 || index === 1) && (
                           <div className="absolute top-2 left-2 px-2 py-1 text-xs font-medium text-black">
                             NEW
                           </div>

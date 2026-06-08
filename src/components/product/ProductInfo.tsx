@@ -1,30 +1,19 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
-  Breadcrumb, 
-  BreadcrumbItem, 
-  BreadcrumbLink, 
-  BreadcrumbList, 
-  BreadcrumbPage, 
-  BreadcrumbSeparator 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Minus, Plus } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { toast } from "sonner";
-import productsData from "@/data/products.json";
+import { useProduct } from "@/hooks/useProduct";
 import { trackProductAddedToCart } from "@/lib/amplitude";
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  description: string;
-  image: string;
-  color: string;
-  mood: string[];
-}
 
 const ProductInfo = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -33,36 +22,34 @@ const ProductInfo = () => {
   const [selectedSize, setSelectedSize] = useState("M");
 
   const sizes = ["XS", "S", "M", "L", "XL"];
-  
-  // Find the product from products.json
-  const product = productsData.find((p: Product) => p.id === productId) as Product | undefined;
+
+  const { data: product } = useProduct(productId);
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
-  
+
   const handleAddToCart = () => {
     if (!product) return;
-    
-    // Add to cart multiple times based on quantity
+
     for (let i = 0; i < quantity; i++) {
       addToCart({
         id: product.id,
         name: product.name,
         price: product.price,
-        image: product.image,
+        image: product.image_url,
         size: selectedSize,
         category: product.category,
         color: product.color,
       });
     }
-    
+
     trackProductAddedToCart({ id: product.id, name: product.name, category: product.category, price: product.price, quantity });
 
     toast.success(`${product.name} dodano do koszyka!`, {
       description: `Rozmiar: ${selectedSize}, Ilość: ${quantity}`,
     });
   };
-  
+
   if (!product) {
     return <div>Produkt nie znaleziony</div>;
   }
@@ -111,12 +98,12 @@ const ProductInfo = () => {
           <h3 className="text-sm font-light text-foreground">Opis</h3>
           <p className="text-sm font-light text-muted-foreground">{product.description}</p>
         </div>
-        
+
         <div className="space-y-2">
           <h3 className="text-sm font-light text-foreground">Kolor</h3>
           <p className="text-sm font-light text-muted-foreground capitalize">{product.color}</p>
         </div>
-        
+
         {/* Size selector */}
         <div className="space-y-2">
           <h3 className="text-sm font-light text-foreground">Rozmiar</h3>
@@ -165,7 +152,7 @@ const ProductInfo = () => {
           </div>
         </div>
 
-        <Button 
+        <Button
           onClick={handleAddToCart}
           className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-light rounded-none"
         >

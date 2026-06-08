@@ -1,20 +1,34 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import productsData from '@/data/products.json';
+import { useProducts } from '@/hooks/useProducts';
+import type { Product } from '@/types/product';
 
-const CATEGORIES = ['biustonosze', 'piżamy', 'zestawy'];
-const slides = CATEGORIES.map(cat => productsData.find(p => p.category === cat)!);
+const HERO_CATEGORIES = ['biustonosze', 'piżamy', 'zestawy'] as const;
 const INTERVAL_MS = 5000;
 
 const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
+  const { data: allProducts = [] } = useProducts();
+
+  const slides = HERO_CATEGORIES
+    .map(cat => allProducts.find(p => p.category === cat))
+    .filter(Boolean) as Product[];
 
   useEffect(() => {
+    if (slides.length === 0) return;
     const timer = setInterval(() => {
       setCurrent(prev => (prev + 1) % slides.length);
     }, INTERVAL_MS);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
+
+  if (slides.length === 0) {
+    return (
+      <section className="w-full px-6 mb-12">
+        <div className="relative aspect-[4/3] md:aspect-[16/7] bg-muted animate-pulse" />
+      </section>
+    );
+  }
 
   const product = slides[current];
 
@@ -23,7 +37,7 @@ const HeroCarousel = () => {
       <Link to={`/product/${product.id}`}>
         <div className="relative aspect-[4/3] md:aspect-[16/7] overflow-hidden bg-muted">
           <img
-            src={product.image}
+            src={product.image_url}
             alt={product.name}
             className="w-full h-full object-cover transition-opacity duration-500"
           />

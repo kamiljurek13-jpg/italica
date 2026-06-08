@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ShoppingBag from "./ShoppingBag";
 import { useCart } from "@/context/CartContext";
 import { useABGroup } from "@/hooks/useABGroup";
-import productsData from "@/data/products.json";
+import { useProducts } from "@/hooks/useProducts";
 import {
   trackNavigationMenuOpened,
   trackNavigationCategoryClicked,
@@ -23,6 +23,8 @@ const Navigation = () => {
   const [offCanvasType, setOffCanvasType] = useState<'favorites' | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
+
+  const { data: productsData = [] } = useProducts();
 
   const searchResults = searchQuery.trim().length > 0
     ? productsData.filter(p =>
@@ -43,24 +45,20 @@ const Navigation = () => {
 
   const popularSearches = [
     "Biustonosze",
-    "Piżamy",
-    "Koszulki nocne",
-    "Pończochy",
-    "Pasy",
-    "Zestawy"
+    "Majtki",
+    "Zestawy",
+    "Piżamy"
   ];
-  
+
   const navItems = [
-    { 
-      name: "Produkty", 
+    {
+      name: "Produkty",
       href: "/category/all",
       submenuItems: [
         "Biustonosze",
-        "Piżamy", 
-        "Koszulki nocne",
-        "Pończochy",
-        "Pasy",
-        "Zestawy"
+        "Majtki",
+        "Zestawy",
+        "Piżamy"
       ],
       images: [
         { src: "/rings-collection.png", alt: "Kolekcja Koronkowa", label: "Koronka" },

@@ -28,7 +28,7 @@ interface FilterSortBarProps {
 const FilterSortBar = ({ filtersOpen, setFiltersOpen, itemCount }: FilterSortBarProps) => {
   const [sortBy, setSortBy] = useState("featured");
 
-  const categories = ["Biustonosze", "Piżamy", "Koszulki nocne", "Pończochy", "Pasy", "Zestawy"];
+  const categories = ["Biustonosze", "Majtki", "Zestawy", "Piżamy"];
   const priceRanges = ["Do 200 zł", "200–400 zł", "400–600 zł", "Powyżej 600 zł"];
   const materials = ["Jedwab", "Koronka", "Bawełna", "Satyna"];
 
