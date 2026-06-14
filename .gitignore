@@ -28,3 +28,4 @@ dist-ssr
 .vercel
 n8n/
 datacollection.ipynb
+scripts/playwright/node_modules/

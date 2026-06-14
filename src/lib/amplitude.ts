@@ -13,6 +13,14 @@ export const initAmplitude = () => {
     },
   });
   amplitude.add(sessionReplayPlugin({ sampleRate: 1, maskLevel: 'conservative' }));
+
+  (window as any).__italica = {
+    identifyUser: (props: Record<string, string | boolean>) => {
+      const id = new amplitude.Identify();
+      Object.entries(props).forEach(([k, v]) => id.set(k, v));
+      amplitude.identify(id);
+    },
+  };
 };
 
 export const identifyABGroup = (group: ABGroup) => {

@@ -1,38 +1,50 @@
-import type { Product } from '@/types/product';
+import { supabase } from '@/lib/supabase';
+import type { SearchResult } from '@/hooks/useSemanticSearch';
 
-const shuffle = <T>(arr: T[]): T[] => {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+const EMBED_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/embed`;
+const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+
+const MOOD_QUERIES: Record<string, string> = {
+  sleepy: 'miękka bielizna do spania piżama wygodna relaks',
+  sexy: 'zmysłowa bielizna seksowna odważna przyciągająca wzrok',
+  daily: 'wygodna codzienna bielizna casualowa zapominasz że masz na sobie',
 };
 
-const filterByMood = (mood: string, products: Product[]): Product[] =>
-  shuffle(products.filter(p => p.mood.includes(mood.toLowerCase() as Product['mood'][number]))).slice(0, 4);
-
-export const getProductRecommendations = async (
-  mood: string,
-  products: Product[]
-): Promise<Product[]> => {
-  if (import.meta.env.VITE_USE_AI_ENGINE !== 'true') {
-    return filterByMood(mood, products);
-  }
+export const getProductRecommendations = async (mood: string): Promise<SearchResult[]> => {
+  const query = MOOD_QUERIES[mood] ?? mood;
 
   try {
-    const response = await fetch('/api/recommendations', {
+    const embedRes = await fetch(EMBED_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mood }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${ANON_KEY}`,
+      },
+      body: JSON.stringify({ text: query }),
     });
 
-    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    if (!embedRes.ok) throw new Error(`Embed error: ${embedRes.status}`);
 
-    const data = await response.json();
-    return data.recommendations || [];
-  } catch (error) {
-    console.error('Error getting recommendations from API:', error);
-    return filterByMood(mood, products);
+    const { embedding } = await embedRes.json();
+
+    const { data, error } = await supabase.rpc('match_products', {
+      query_embedding: embedding,
+      match_threshold: 0.4,
+      match_count: 6,
+    });
+
+    if (error) throw error;
+
+    return (data as SearchResult[]).slice(0, 3);
+  } catch (err) {
+    console.error('Recommendations error, falling back to mood filter:', err);
+
+    const { data } = await supabase
+      .from('products')
+      .select('id, name, description, price, image_url, category')
+      .contains('mood', [mood])
+      .limit(3);
+
+    return (data ?? []).map(p => ({ ...p, similarity: 0 })) as SearchResult[];
   }
 };

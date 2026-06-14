@@ -1,0 +1,42 @@
+name: Synthetic A/B Users
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/25 8-23 * * *'
+
+jobs:
+  run-personas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('scripts/playwright/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install dependencies
+        working-directory: scripts/playwright
+        run: npm install
+
+      - name: Install Playwright browsers
+        working-directory: scripts/playwright
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Run synthetic personas
+        working-directory: scripts/playwright
+        env:
+          TARGET_URL: ${{ secrets.PLAYWRIGHT_TARGET_URL }}
+        run: npx ts-node run-personas.ts

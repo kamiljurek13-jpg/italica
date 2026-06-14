@@ -4,8 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, Gift, Moon, Flame, Coffee } from 'lucide-react';
 import { getProductRecommendations } from '@/lib/anthropic';
-import type { Product } from '@/types/product';
-import { useProducts } from '@/hooks/useProducts';
+import type { SearchResult } from '@/hooks/useSemanticSearch';
 import { trackGiftHelperMoodClick, trackGiftHelperRecommendation } from '@/lib/amplitude';
 
 type Mood = 'sleepy' | 'sexy' | 'daily';
@@ -13,31 +12,30 @@ type Mood = 'sleepy' | 'sexy' | 'daily';
 const moodConfig = {
   sleepy: {
     icon: Moon,
-    label: 'Relaks',
-    description: 'Miękkie, wygodne rzeczy do odpoczynku',
+    label: 'Sleep',
+    description: 'Miękkie, wygodne rzeczy do spania',
     color: 'bg-blue-500 hover:bg-blue-600',
   },
   sexy: {
     icon: Flame,
-    label: 'Zmysłowość',
-    description: 'Odważne, przyciągające wzrok kreacje',
+    label: 'Sexy',
+    description: 'Odważne, przyciągające wzrok',
     color: 'bg-red-500 hover:bg-red-600',
   },
   daily: {
     icon: Coffee,
-    label: 'Codzienność',
-    description: 'Wszechstronne rzeczy na co dzień',
+    label: 'Na codzień',
+    description: 'Wygodne, zapominasz że masz na sobie',
     color: 'bg-amber-500 hover:bg-amber-600',
   },
 };
 
 const GiftHelper = () => {
   const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
-  const [recommendations, setRecommendations] = useState<Product[]>([]);
+  const [recommendations, setRecommendations] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { data: productsData = [] } = useProducts();
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -54,7 +52,7 @@ const GiftHelper = () => {
     trackGiftHelperMoodClick(mood);
 
     try {
-      const products = await getProductRecommendations(mood, productsData);
+      const products = await getProductRecommendations(mood);
       setRecommendations(products);
       trackGiftHelperRecommendation(mood, products);
     } catch (err) {
@@ -74,7 +72,7 @@ const GiftHelper = () => {
             <h2 className="text-4xl font-serif font-light">Doradca Prezentów</h2>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Nie wiesz co wybrać? Powiedz nam, jaki jest Twój nastrój, a dobierzemy idealne produkty.
+            Powiedz nam co masz na myśli
           </p>
         </div>
 
@@ -90,7 +88,7 @@ const GiftHelper = () => {
                 key={mood}
                 className={`cursor-pointer transition-all duration-300 hover:shadow-lg ${
                   isSelected ? 'ring-2 ring-primary shadow-lg' : ''
-                } ${productsData.length === 0 ? 'opacity-50 pointer-events-none' : ''}`}
+                }`}
                 onClick={() => handleMoodClick(mood)}
               >
                 <CardHeader className="text-center">
@@ -139,7 +137,7 @@ const GiftHelper = () => {
           <div className="space-y-6">
             <div className="text-center">
               <h3 className="text-2xl font-serif mb-2">
-                Idealne na nastrój: {selectedMood}
+                Idealne na nastrój: {selectedMood ? moodConfig[selectedMood].label : ''}
               </h3>
               <p className="text-muted-foreground">
                 Oto produkty dobrane specjalnie dla Ciebie
