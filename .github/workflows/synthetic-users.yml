@@ -3,7 +3,7 @@ name: Synthetic A/B Users
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/25 8-23 * * *'
+    - cron: '*/15 8-23 * * *'
 
 jobs:
   run-personas:
