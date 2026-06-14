@@ -46,7 +46,13 @@ const RUNNERS: Record<PersonaType, (ctx: any) => Promise<void>> = {
 
 async function runPersona(personaType: PersonaType): Promise<void> {
   console.log(`\n→ Starting [${personaType}]`);
-  const ctx = await createPersonaSession(personaType);
+  let ctx;
+  try {
+    ctx = await createPersonaSession(personaType);
+  } catch (err) {
+    console.error(`✗ [${personaType}] session error:`, err);
+    return;
+  }
   try {
     await RUNNERS[personaType](ctx);
     console.log(`✓ [${personaType}] done (ab_group=${ctx.abGroup})`);
