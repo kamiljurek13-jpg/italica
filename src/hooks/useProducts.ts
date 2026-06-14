@@ -17,17 +17,27 @@ export function useProducts() {
   });
 }
 
-export function useProductsByCategory(category: string | undefined) {
-  return useQuery<Product[]>({
-    queryKey: ['products', 'category', category],
+export function useProductsByCategory(
+  category: string | undefined,
+  page: number = 1,
+  pageSize: number = 24
+) {
+  return useQuery<{ items: Product[]; totalCount: number }>({
+    queryKey: ['products', 'category', category, page, pageSize],
     queryFn: async () => {
-      let query = supabase.from('products').select('*').order('created_at', { ascending: true });
+      const from = (page - 1) * pageSize;
+      const to = from + pageSize - 1;
+      let query = supabase
+        .from('products')
+        .select('*', { count: 'exact' })
+        .order('created_at', { ascending: true })
+        .range(from, to);
       if (category && category !== 'all') {
         query = query.eq('category', category);
       }
-      const { data, error } = await query;
+      const { data, error, count } = await query;
       if (error) throw error;
-      return data as Product[];
+      return { items: (data as Product[]) ?? [], totalCount: count ?? 0 };
     },
     staleTime: 1000 * 60 * 5,
   });
