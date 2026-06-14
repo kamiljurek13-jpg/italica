@@ -31,10 +31,13 @@ export async function createPersonaSession(personaType: PersonaType): Promise<Pe
   // Navigate — Vercel middleware assigns ab_group cookie randomly (50/50)
   await page.goto(TARGET_URL, { waitUntil: 'networkidle', timeout: 30000 });
 
+  console.log(`  page loaded: ${await page.title()} @ ${page.url()}`);
+
   // Read which group middleware assigned
   const cookies = await context.cookies();
   const abGroupCookie = cookies.find(c => c.name === 'ab_group');
   const abGroup = (abGroupCookie?.value as ABGroup) ?? 'A';
+  console.log(`  ab_group cookie: ${abGroupCookie?.value ?? '(not set, fallback A)'}`);
 
   // Identify persona in Amplitude via __italica helper exposed in amplitude.ts
   await page.evaluate(({ persona }: { persona: PersonaType }) => {
