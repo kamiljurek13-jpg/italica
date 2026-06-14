@@ -21,12 +21,14 @@ export async function runPremiumSkeptic(ctx: PersonaContext): Promise<void> {
     await mediumDelay();
 
     const firstResult = page.locator('ul li a[href*="/product/"]').first();
-    if (await firstResult.isVisible({ timeout: 3000 }).catch(() => false)) {
+    if (await firstResult.isVisible({ timeout: 8000 }).catch(() => false)) {
       await firstResult.click();
     } else {
-      await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'networkidle' });
+      await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });
       await fastDelay();
-      await page.locator('a[href*="/product/"]').first().click();
+      const fallbackProduct = page.locator('a[href*="/product/"]').first();
+      if (!await fallbackProduct.isVisible({ timeout: 15000 }).catch(() => false)) return;
+      await fallbackProduct.click();
     }
   } else {
     // Group B: tries Gift Helper but picks a "safe" mood
@@ -34,20 +36,22 @@ export async function runPremiumSkeptic(ctx: PersonaContext): Promise<void> {
     const giftLink = page.getByRole('link', { name: 'Doradca prezentów' });
     await giftLink.waitFor({ timeout: 10000 });
     await giftLink.click();
-    await page.waitForLoadState('networkidle');
-    await mediumDelay();
 
+    // Wait for mood cards to render (static content, no API call needed)
     const mood = QUERIES_B_MOODS[Math.floor(Math.random() * QUERIES_B_MOODS.length)];
-    await page.locator('[class*="cursor-pointer"]').filter({ hasText: mood }).first().click();
+    const moodCard = page.locator('[class*="cursor-pointer"]').filter({ hasText: mood }).first();
+    if (!await moodCard.waitFor({ timeout: 10000 }).then(() => true).catch(() => false)) return;
+    await mediumDelay();
+    await moodCard.click();
     await slowDelay(); // waits for recommendations with doubt
 
     const firstProduct = page.locator('a').filter({ hasText: 'Zobacz szczegóły' }).first();
-    if (await firstProduct.isVisible({ timeout: 10000 }).catch(() => false)) {
-      await firstProduct.click();
-    }
+    if (!await firstProduct.isVisible({ timeout: 15000 }).catch(() => false)) return;
+    await firstProduct.click();
   }
 
-  await page.waitForLoadState('networkidle');
+  // Wait for product page to render
+  await page.waitForURL(/\/product\//, { timeout: 10000 }).catch(() => {});
   await slowDelay(); // reads carefully
 
   // Opens description accordion
@@ -84,7 +88,7 @@ export async function runPremiumSkeptic(ctx: PersonaContext): Promise<void> {
     await mediumDelay();
 
     // Goes to checkout, sees total price — and leaves (abandon)
-    await page.goto(`${TARGET_URL}/checkout`, { waitUntil: 'networkidle' });
+    await page.goto(`${TARGET_URL}/checkout`, { waitUntil: 'load' });
     await slowDelay(); // stares at the total price
     // Does NOT click "Złóż zamówienie" — session ends here
   }

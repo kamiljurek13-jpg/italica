@@ -18,13 +18,14 @@ export async function runFirstVisit(ctx: PersonaContext): Promise<void> {
     const giftLink = page.getByRole('link', { name: 'Doradca prezentów' });
     if (await giftLink.isVisible({ timeout: 5000 }).catch(() => false)) {
       await giftLink.click();
-      await page.waitForLoadState('networkidle');
+      // Wait for mood cards to render before "reading" the page
+      await page.locator('[class*="cursor-pointer"]').first().waitFor({ timeout: 10000 }).catch(() => {});
       await slowDelay();
 
       // Reads the description but doesn't click a mood — bounces
       await slowDelay();
       await page.goBack();
-      await page.waitForLoadState('networkidle');
+      await page.waitForSelector('nav', { timeout: 10000 }).catch(() => {});
     }
   } else {
     // Group A: tries to open search but doesn't know what to look for
@@ -42,7 +43,7 @@ export async function runFirstVisit(ctx: PersonaContext): Promise<void> {
 
   // Browses a category out of curiosity
   const category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
-  await page.goto(`${TARGET_URL}/category/${category}`, { waitUntil: 'networkidle' });
+  await page.goto(`${TARGET_URL}/category/${category}`, { waitUntil: 'load' });
   await slowDelay();
   await page.mouse.wheel(0, 500);
   await slowDelay();
@@ -52,7 +53,7 @@ export async function runFirstVisit(ctx: PersonaContext): Promise<void> {
     const productLink = page.locator('a[href*="/product/"]').first();
     if (await productLink.isVisible({ timeout: 3000 }).catch(() => false)) {
       await productLink.click();
-      await page.waitForLoadState('networkidle');
+      await page.waitForURL(/\/product\//, { timeout: 10000 }).catch(() => {});
       await slowDelay();
       await page.mouse.wheel(0, 300);
       await slowDelay();
