@@ -35,7 +35,8 @@ export async function createPersonaSession(personaType: PersonaType): Promise<Pe
   }
 
   // Navigate — Vercel middleware assigns ab_group cookie randomly (50/50)
-  await page.goto(TARGET_URL, { waitUntil: 'networkidle', timeout: 30000 });
+  await page.goto(TARGET_URL, { waitUntil: 'load', timeout: 30000 });
+  await page.waitForSelector('nav', { timeout: 10000 });
 
   console.log(`  page loaded: ${await page.title()} @ ${page.url()}`);
 
