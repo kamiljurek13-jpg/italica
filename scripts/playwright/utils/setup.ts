@@ -38,7 +38,7 @@ export async function createPersonaSession(personaType: PersonaType): Promise<Pe
 
   // Identify persona in Amplitude via __italica helper exposed in amplitude.ts
   await page.evaluate(({ persona }: { persona: PersonaType }) => {
-    const win = window as any;
+    const win = (globalThis as any);
     win.__italica?.identifyUser?.({
       synthetic_persona: persona,
       is_synthetic: true,
