@@ -28,6 +28,12 @@ export async function createPersonaSession(personaType: PersonaType): Promise<Pe
 
   const page = await context.newPage();
 
+  if (process.env.VERCEL_BYPASS_SECRET) {
+    await page.setExtraHTTPHeaders({
+      'x-vercel-protection-bypass': process.env.VERCEL_BYPASS_SECRET,
+    });
+  }
+
   // Navigate — Vercel middleware assigns ab_group cookie randomly (50/50)
   await page.goto(TARGET_URL, { waitUntil: 'networkidle', timeout: 30000 });
 

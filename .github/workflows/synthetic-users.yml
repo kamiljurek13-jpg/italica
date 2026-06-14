@@ -39,4 +39,5 @@ jobs:
         working-directory: scripts/playwright
         env:
           TARGET_URL: ${{ secrets.PLAYWRIGHT_TARGET_URL }}
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_BYPASS_SECRET }}
         run: npx ts-node run-personas.ts
