@@ -51,6 +51,10 @@ export async function createPersonaSession(personaType: PersonaType): Promise<Pe
     page,
     context,
     abGroup,
-    close: () => browser.close(),
+    close: async () => {
+      await page.evaluate(() => (globalThis as any).amplitude?.flush?.()).catch(() => {});
+      await new Promise(r => setTimeout(r, 2000));
+      return browser.close();
+    },
   };
 }
