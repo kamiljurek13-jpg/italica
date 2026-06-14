@@ -12,7 +12,7 @@ export const initAmplitude = () => {
       fileDownloads: true,
     },
   });
-  amplitude.add(sessionReplayPlugin({ sampleRate: 1 }));
+  amplitude.add(sessionReplayPlugin({ sampleRate: 1, maskLevel: 'conservative' }));
 };
 
 export const identifyABGroup = (group: ABGroup) => {

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ShoppingBag from "./ShoppingBag";
 import { useCart } from "@/context/CartContext";
 import { useABGroup } from "@/hooks/useABGroup";
-import { useProducts } from "@/hooks/useProducts";
+import { useSemanticSearch } from "@/hooks/useSemanticSearch";
 import {
   trackNavigationMenuOpened,
   trackNavigationCategoryClicked,
@@ -24,24 +24,23 @@ const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
 
-  const { data: productsData = [] } = useProducts();
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 400);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
-  const searchResults = searchQuery.trim().length > 0
-    ? productsData.filter(p =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.category.toLowerCase().includes(searchQuery.toLowerCase())
-      ).slice(0, 8)
-    : [];
+  const { data: semanticResults = [], isLoading: isSearching } = useSemanticSearch(debouncedQuery);
 
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     if (searchQuery.trim().length < 2) return;
     if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
     searchDebounceRef.current = setTimeout(() => {
-      trackSearchQueryEntered(searchQuery.trim(), searchResults.length);
+      trackSearchQueryEntered(searchQuery.trim(), semanticResults.length);
     }, 600);
     return () => { if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current); };
-  }, [searchQuery, searchResults.length]);
+  }, [searchQuery, semanticResults.length]);
 
   const popularSearches = [
     "Biustonosze",
@@ -238,11 +237,11 @@ const Navigation = () => {
                 </div>
               </div>
 
-              {searchResults.length > 0 ? (
+              {semanticResults.length > 0 ? (
                 <div>
-                  <h3 className="text-nav-foreground text-sm font-light mb-4">Wyniki ({searchResults.length})</h3>
+                  <h3 className="text-nav-foreground text-sm font-light mb-4">Wyniki ({semanticResults.length})</h3>
                   <ul className="space-y-1">
-                    {searchResults.map((product) => (
+                    {semanticResults.map((product) => (
                       <li key={product.id}>
                         <Link
                           to={`/product/${product.id}`}
@@ -256,8 +255,10 @@ const Navigation = () => {
                     ))}
                   </ul>
                 </div>
-              ) : searchQuery.trim().length > 0 ? (
-                <p className="text-sm font-light text-nav-foreground/60">Brak wyników dla „{searchQuery}"</p>
+              ) : isSearching ? (
+                <p className="text-sm font-light text-nav-foreground/60">Wyszukuję...</p>
+              ) : debouncedQuery.trim().length >= 3 ? (
+                <p className="text-sm font-light text-nav-foreground/60">Brak wyników dla „{debouncedQuery}"</p>
               ) : (
                 <div>
                   <h3 className="text-nav-foreground text-sm font-light mb-4">Popularne wyszukiwania</h3>
