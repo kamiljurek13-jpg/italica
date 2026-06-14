@@ -21,21 +21,25 @@ export async function runPowerShopper(ctx: PersonaContext): Promise<void> {
 
     // Click first product result if available, otherwise go to category directly
     const firstResult = page.locator('ul li a[href*="/product/"]').first();
-    if (await firstResult.isVisible({ timeout: 3000 }).catch(() => false)) {
+    if (await firstResult.isVisible({ timeout: 8000 }).catch(() => false)) {
       await firstResult.click();
     } else {
-      await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'networkidle' });
-      await page.locator('a[href*="/product/"]').first().click();
+      await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });
+      const fallbackProduct = page.locator('a[href*="/product/"]').first();
+      if (!await fallbackProduct.isVisible({ timeout: 15000 }).catch(() => false)) return;
+      await fallbackProduct.click();
     }
   } else {
     // Group B: no search icon — goes straight to category (she knows what she wants)
     await fastDelay();
-    await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'networkidle' });
+    await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });
     await fastDelay();
-    await page.locator('a[href*="/product/"]').first().click();
+    const productLink = page.locator('a[href*="/product/"]').first();
+    if (!await productLink.isVisible({ timeout: 15000 }).catch(() => false)) return;
+    await productLink.click();
   }
 
-  await page.waitForLoadState('networkidle');
+  await page.waitForURL(/\/product\//, { timeout: 10000 }).catch(() => {});
   await fastDelay();
 
   // Select size — try standard sizes first
@@ -52,12 +56,12 @@ export async function runPowerShopper(ctx: PersonaContext): Promise<void> {
   await fastDelay();
 
   // Checkout
-  await page.goto(`${TARGET_URL}/checkout`, { waitUntil: 'networkidle' });
+  await page.goto(`${TARGET_URL}/checkout`, { waitUntil: 'load' });
   await fastDelay();
 
   const orderBtn = page.getByRole('button', { name: /Złóż zamówienie/ });
   if (await orderBtn.isEnabled({ timeout: 5000 }).catch(() => false)) {
     await orderBtn.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
   }
 }

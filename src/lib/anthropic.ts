@@ -1,46 +1,50 @@
-// Updated to use Vercel serverless function instead of direct API calls
+import { supabase } from '@/lib/supabase';
+import type { SearchResult } from '@/hooks/useSemanticSearch';
 
-export interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  description: string;
-  image: string;
-  mood: string[];
-}
+const EMBED_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/embed`;
+const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
 
-export const getProductRecommendations = async (
-  mood: string,
-  products: Product[]
-): Promise<Product[]> => {
+const MOOD_QUERIES: Record<string, string> = {
+  sleepy: 'miękka bielizna do spania piżama wygodna relaks',
+  sexy: 'zmysłowa bielizna seksowna odważna przyciągająca wzrok',
+  daily: 'wygodna codzienna bielizna casualowa zapominasz że masz na sobie',
+};
+
+export const getProductRecommendations = async (mood: string): Promise<SearchResult[]> => {
+  const query = MOOD_QUERIES[mood] ?? mood;
+
   try {
-    // Call our secure Vercel serverless function
-    const response = await fetch('/api/recommendations', {
+    const embedRes = await fetch(EMBED_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${ANON_KEY}`,
       },
-      body: JSON.stringify({
-        mood,
-        products,
-      }),
+      body: JSON.stringify({ text: query }),
     });
 
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
+    if (!embedRes.ok) throw new Error(`Embed error: ${embedRes.status}`);
 
-    const data = await response.json();
-    
-    // Return recommendations from the API
-    return data.recommendations || [];
-  } catch (error) {
-    console.error('Error getting recommendations from API:', error);
-    
-    // Fallback: return products that match the mood
-    return products
-      .filter(p => p.mood.includes(mood.toLowerCase()))
-      .slice(0, 3);
+    const { embedding } = await embedRes.json();
+
+    const { data, error } = await supabase.rpc('match_products', {
+      query_embedding: embedding,
+      match_threshold: 0.4,
+      match_count: 6,
+    });
+
+    if (error) throw error;
+
+    return (data as SearchResult[]).slice(0, 3);
+  } catch (err) {
+    console.error('Recommendations error, falling back to mood filter:', err);
+
+    const { data } = await supabase
+      .from('products')
+      .select('id, name, description, price, image_url, category')
+      .contains('mood', [mood])
+      .limit(3);
+
+    return (data ?? []).map(p => ({ ...p, similarity: 0 })) as SearchResult[];
   }
 };

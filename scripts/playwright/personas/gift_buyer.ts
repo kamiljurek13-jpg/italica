@@ -14,16 +14,18 @@ export async function runGiftBuyer(ctx: PersonaContext): Promise<void> {
     const giftLink = page.getByRole('link', { name: 'Doradca prezentów' });
     await giftLink.waitFor({ timeout: 10000 });
     await giftLink.click();
-    await page.waitForLoadState('networkidle');
-    await mediumDelay();
 
+    // Wait for mood cards to render (static content, no API call needed)
     const mood = MOODS[Math.floor(Math.random() * MOODS.length)];
-    await page.locator('[class*="cursor-pointer"]').filter({ hasText: mood }).first().click();
+    const moodCard = page.locator('[class*="cursor-pointer"]').filter({ hasText: mood }).first();
+    if (!await moodCard.waitFor({ timeout: 10000 }).then(() => true).catch(() => false)) return;
+    await mediumDelay();
+    await moodCard.click();
     await mediumDelay();
 
-    // Wait for recommendations to load
+    // Wait for recommendations to load (Edge Function + DB query)
     const firstProduct = page.locator('a').filter({ hasText: 'Zobacz szczegóły' }).first();
-    await firstProduct.waitFor({ timeout: 15000 });
+    if (!await firstProduct.isVisible({ timeout: 20000 }).catch(() => false)) return;
     await mediumDelay();
     await firstProduct.click();
   } else {
@@ -40,17 +42,20 @@ export async function runGiftBuyer(ctx: PersonaContext): Promise<void> {
     await slowDelay(); // hesitates before clicking
 
     const firstResult = page.locator('ul li a[href*="/product/"]').first();
-    if (await firstResult.isVisible({ timeout: 3000 }).catch(() => false)) {
+    if (await firstResult.isVisible({ timeout: 8000 }).catch(() => false)) {
       await firstResult.click();
     } else {
       // Search failed, browses popular category
-      await page.goto(`${TARGET_URL}/category/zestawy`, { waitUntil: 'networkidle' });
+      await page.goto(`${TARGET_URL}/category/zestawy`, { waitUntil: 'load' });
       await mediumDelay();
-      await page.locator('a[href*="/product/"]').first().click();
+      const fallbackProduct = page.locator('a[href*="/product/"]').first();
+      if (!await fallbackProduct.isVisible({ timeout: 15000 }).catch(() => false)) return;
+      await fallbackProduct.click();
     }
   }
 
-  await page.waitForLoadState('networkidle');
+  // Wait for product page to render
+  await page.waitForURL(/\/product\//, { timeout: 10000 }).catch(() => {});
   await mediumDelay();
 
   // Reads description — wants to make sure it's a good gift
@@ -79,12 +84,12 @@ export async function runGiftBuyer(ctx: PersonaContext): Promise<void> {
   await addToCart.click();
   await mediumDelay();
 
-  await page.goto(`${TARGET_URL}/checkout`, { waitUntil: 'networkidle' });
+  await page.goto(`${TARGET_URL}/checkout`, { waitUntil: 'load' });
   await mediumDelay();
 
   const orderBtn = page.getByRole('button', { name: /Złóż zamówienie/ });
   if (await orderBtn.isEnabled({ timeout: 5000 }).catch(() => false)) {
     await orderBtn.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
   }
 }

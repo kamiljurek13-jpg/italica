@@ -20,21 +20,25 @@ export async function runLoyalCustomer(ctx: PersonaContext): Promise<void> {
     await veryFastDelay();
 
     const firstResult = page.locator('ul li a[href*="/product/"]').first();
-    if (await firstResult.isVisible({ timeout: 3000 }).catch(() => false)) {
+    if (await firstResult.isVisible({ timeout: 8000 }).catch(() => false)) {
       await firstResult.click();
     } else {
-      await page.goto(`${TARGET_URL}/category/bielizna`, { waitUntil: 'networkidle' });
-      await page.locator('a[href*="/product/"]').first().click();
+      await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });
+      const fallbackProduct = page.locator('a[href*="/product/"]').first();
+      if (!await fallbackProduct.isVisible({ timeout: 15000 }).catch(() => false)) return;
+      await fallbackProduct.click();
     }
   } else {
     // Group B: no search — goes directly to her favourite category (knows the site)
     await veryFastDelay();
-    await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'networkidle' });
+    await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });
     await veryFastDelay();
-    await page.locator('a[href*="/product/"]').first().click();
+    const productLink = page.locator('a[href*="/product/"]').first();
+    if (!await productLink.isVisible({ timeout: 15000 }).catch(() => false)) return;
+    await productLink.click();
   }
 
-  await page.waitForLoadState('networkidle');
+  await page.waitForURL(/\/product\//, { timeout: 10000 }).catch(() => {});
   await veryFastDelay();
 
   // Knows her size — selects immediately
@@ -51,12 +55,12 @@ export async function runLoyalCustomer(ctx: PersonaContext): Promise<void> {
   await veryFastDelay();
 
   // Goes straight to checkout and completes order
-  await page.goto(`${TARGET_URL}/checkout`, { waitUntil: 'networkidle' });
+  await page.goto(`${TARGET_URL}/checkout`, { waitUntil: 'load' });
   await fastDelay();
 
   const orderBtn = page.getByRole('button', { name: /Złóż zamówienie/ });
   if (await orderBtn.isEnabled({ timeout: 5000 }).catch(() => false)) {
     await orderBtn.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
   }
 }

@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ShoppingBag from "./ShoppingBag";
 import { useCart } from "@/context/CartContext";
-import productsData from "@/data/products.json";
+import { useABGroup } from "@/hooks/useABGroup";
+import { useSemanticSearch } from "@/hooks/useSemanticSearch";
 import {
   trackNavigationMenuOpened,
   trackNavigationCategoryClicked,
@@ -15,6 +16,7 @@ import {
 const Navigation = () => {
   const { totalItems } = useCart();
   const navigate = useNavigate();
+  const group = useABGroup();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,43 +24,40 @@ const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShoppingBagOpen, setIsShoppingBagOpen] = useState(false);
 
-  const searchResults = searchQuery.trim().length > 0
-    ? productsData.filter(p =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.category.toLowerCase().includes(searchQuery.toLowerCase())
-      ).slice(0, 8)
-    : [];
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 400);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const { data: semanticResults = [], isLoading: isSearching } = useSemanticSearch(debouncedQuery);
 
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     if (searchQuery.trim().length < 2) return;
     if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
     searchDebounceRef.current = setTimeout(() => {
-      trackSearchQueryEntered(searchQuery.trim(), searchResults.length);
+      trackSearchQueryEntered(searchQuery.trim(), semanticResults.length);
     }, 600);
     return () => { if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current); };
-  }, [searchQuery, searchResults.length]);
+  }, [searchQuery, semanticResults.length]);
 
   const popularSearches = [
     "Biustonosze",
-    "Piżamy",
-    "Koszulki nocne",
-    "Pończochy",
-    "Pasy",
-    "Zestawy"
+    "Majtki",
+    "Zestawy",
+    "Piżamy"
   ];
-  
+
   const navItems = [
-    { 
-      name: "Produkty", 
+    {
+      name: "Produkty",
       href: "/category/all",
       submenuItems: [
         "Biustonosze",
-        "Piżamy", 
-        "Koszulki nocne",
-        "Pończochy",
-        "Pasy",
-        "Zestawy"
+        "Majtki",
+        "Zestawy",
+        "Piżamy"
       ],
       images: [
         { src: "/rings-collection.png", alt: "Kolekcja Koronkowa", label: "Koronka" },
@@ -127,27 +126,38 @@ const Navigation = () => {
 
         {/* Right icons */}
         <div className="flex items-center space-x-2">
-          <Link
-            to="/gift-helper"
-            className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Doradca prezentów"
-          >
-            <Gift className="w-5 h-5" />
-          </Link>
-          <button
-            className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
-            aria-label="Szukaj"
-            onClick={() => {
-              const opening = !isSearchOpen;
-              setIsSearchOpen(opening);
-              setSearchQuery("");
-              if (opening) trackSearchOpened();
-            }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-            </svg>
-          </button>
+          {group === 'B' ? (
+            <Link
+              to="/gift-helper"
+              className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+              aria-label="Doradca prezentów"
+              onClick={() => {
+                sessionStorage.setItem('ttfp_start', Date.now().toString());
+                sessionStorage.setItem('ttfp_source', 'gift_helper_icon');
+              }}
+            >
+              <Gift className="w-5 h-5" />
+            </Link>
+          ) : (
+            <button
+              className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
+              aria-label="Szukaj"
+              onClick={() => {
+                const opening = !isSearchOpen;
+                setIsSearchOpen(opening);
+                setSearchQuery("");
+                if (opening) {
+                  trackSearchOpened();
+                  sessionStorage.setItem('ttfp_start', Date.now().toString());
+                  sessionStorage.setItem('ttfp_source', 'search_icon');
+                }
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+            </button>
+          )}
           <button 
             className="hidden lg:block p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
             aria-label="Ulubione"
@@ -201,8 +211,8 @@ const Navigation = () => {
         </div>
       )}
 
-      {/* Search overlay */}
-      {isSearchOpen && (
+      {/* Search overlay — Group A only */}
+      {group === 'A' && isSearchOpen && (
         <div className="absolute top-full left-0 right-0 bg-nav border-b border-border z-50">
           <div className="px-6 py-8">
             <div className="max-w-2xl mx-auto">
@@ -227,11 +237,11 @@ const Navigation = () => {
                 </div>
               </div>
 
-              {searchResults.length > 0 ? (
+              {semanticResults.length > 0 ? (
                 <div>
-                  <h3 className="text-nav-foreground text-sm font-light mb-4">Wyniki ({searchResults.length})</h3>
+                  <h3 className="text-nav-foreground text-sm font-light mb-4">Wyniki ({semanticResults.length})</h3>
                   <ul className="space-y-1">
-                    {searchResults.map((product) => (
+                    {semanticResults.map((product) => (
                       <li key={product.id}>
                         <Link
                           to={`/product/${product.id}`}
@@ -245,8 +255,10 @@ const Navigation = () => {
                     ))}
                   </ul>
                 </div>
-              ) : searchQuery.trim().length > 0 ? (
-                <p className="text-sm font-light text-nav-foreground/60">Brak wyników dla „{searchQuery}"</p>
+              ) : isSearching ? (
+                <p className="text-sm font-light text-nav-foreground/60">Wyszukuję...</p>
+              ) : debouncedQuery.trim().length >= 3 ? (
+                <p className="text-sm font-light text-nav-foreground/60">Brak wyników dla „{debouncedQuery}"</p>
               ) : (
                 <div>
                   <h3 className="text-nav-foreground text-sm font-light mb-4">Popularne wyszukiwania</h3>
