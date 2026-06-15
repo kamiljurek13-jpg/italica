@@ -7,11 +7,5 @@
       "source": "/api/:path*",
       "destination": "/api/:path*"
     }
-  ],
-  "crons": [
-    {
-      "path": "/api/trigger-synthetic",
-      "schedule": "0 8-23 * * *"
-    }
   ]
 }
