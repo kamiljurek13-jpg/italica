@@ -32,7 +32,6 @@ jobs:
 
       - name: Install Playwright browsers
         working-directory: scripts/playwright
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
 
       - name: Run synthetic personas
