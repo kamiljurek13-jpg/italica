@@ -20,6 +20,7 @@ export const initAmplitude = () => {
       Object.entries(props).forEach(([k, v]) => id.set(k, v));
       amplitude.identify(id);
     },
+    flush: () => amplitude.flush(),
   };
 };
 

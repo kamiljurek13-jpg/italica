@@ -73,7 +73,7 @@ export async function createPersonaSession(personaType: PersonaType): Promise<Pe
     context,
     abGroup,
     close: async () => {
-      await page.evaluate(() => (globalThis as any).amplitude?.flush?.()).catch(() => {});
+      await page.evaluate(() => (globalThis as any).__italica?.flush?.()).catch(() => {});
       await new Promise(r => setTimeout(r, 6000));
       return browser.close();
     },
