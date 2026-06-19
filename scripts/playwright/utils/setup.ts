@@ -34,6 +34,17 @@ export async function createPersonaSession(personaType: PersonaType): Promise<Pe
     });
   }
 
+  // If FORCE_AB_GROUP is set, pre-seed the cookie before middleware sees the request
+  if (process.env.FORCE_AB_GROUP) {
+    await context.addCookies([{
+      name: 'ab_group',
+      value: process.env.FORCE_AB_GROUP,
+      domain: new URL(TARGET_URL).hostname,
+      path: '/',
+      sameSite: 'Lax',
+    }]);
+  }
+
   // Navigate — Vercel middleware assigns ab_group cookie randomly (50/50)
   await page.goto(TARGET_URL, { waitUntil: 'load', timeout: 30000 });
   await page.waitForSelector('nav', { timeout: 10000 });

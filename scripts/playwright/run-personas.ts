@@ -63,11 +63,14 @@ async function runPersona(personaType: PersonaType): Promise<void> {
   }
 }
 
-async function main(): Promise<void> {
-  const count = 2 + Math.floor(Math.random() * 2); // 2 or 3 personas per run
-  const personas = pickPersonas(count);
+const ALL_PERSONAS: PersonaType[] = ['power_shopper', 'premium_skeptic', 'gift_buyer', 'loyal_customer', 'first_visit'];
 
-  console.log(`Running ${count} personas: ${personas.join(', ')}`);
+async function main(): Promise<void> {
+  const isDebugRun = process.env.RUN_ALL_PERSONAS === 'true';
+  const count = 2 + Math.floor(Math.random() * 2); // 2 or 3 personas per run
+  const personas = isDebugRun ? ALL_PERSONAS : pickPersonas(count);
+
+  console.log(`Running ${personas.length} personas: ${personas.join(', ')}`);
 
   for (const persona of personas) {
     await runPersona(persona);
