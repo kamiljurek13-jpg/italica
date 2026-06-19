@@ -17,11 +17,14 @@ export async function runPowerShopper(ctx: PersonaContext): Promise<void> {
 
     const query = QUERIES[Math.floor(Math.random() * QUERIES.length)];
     await page.locator('input[placeholder="Szukaj produktów..."]').fill(query);
-    await fastDelay();
+    // Embed Edge Function has 400ms debounce + cold start; wait for the actual response
+    await page.waitForResponse(
+      resp => resp.url().includes('/functions/v1/embed') && resp.status() === 200,
+      { timeout: 20000 }
+    ).catch(() => {});
 
-    // Click first product result if available, otherwise go to category directly
     const firstResult = page.locator('ul li a[href*="/product/"]').first();
-    if (await firstResult.isVisible({ timeout: 8000 }).catch(() => false)) {
+    if (await firstResult.isVisible({ timeout: 5000 }).catch(() => false)) {
       await firstResult.click();
     } else {
       await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });

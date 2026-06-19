@@ -12,7 +12,7 @@ export const initAmplitude = () => {
       fileDownloads: true,
     },
   });
-  amplitude.add(sessionReplayPlugin({ sampleRate: 1, maskLevel: 'conservative' }));
+  amplitude.add(sessionReplayPlugin({ sampleRate: 0.1, maskLevel: 'conservative' }));
 
   (window as any).__italica = {
     identifyUser: (props: Record<string, string | boolean>) => {

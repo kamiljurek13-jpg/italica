@@ -18,10 +18,13 @@ export async function runPremiumSkeptic(ctx: PersonaContext): Promise<void> {
 
     const query = QUERIES_A[Math.floor(Math.random() * QUERIES_A.length)];
     await page.locator('input[placeholder="Szukaj produktów..."]').fill(query);
-    await mediumDelay();
+    await page.waitForResponse(
+      resp => resp.url().includes('/functions/v1/embed') && resp.status() === 200,
+      { timeout: 20000 }
+    ).catch(() => {});
 
     const firstResult = page.locator('ul li a[href*="/product/"]').first();
-    if (await firstResult.isVisible({ timeout: 8000 }).catch(() => false)) {
+    if (await firstResult.isVisible({ timeout: 5000 }).catch(() => false)) {
       await firstResult.click();
     } else {
       await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });

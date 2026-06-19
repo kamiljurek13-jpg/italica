@@ -39,13 +39,15 @@ export async function runGiftBuyer(ctx: PersonaContext): Promise<void> {
 
     const query = VAGUE_QUERIES[Math.floor(Math.random() * VAGUE_QUERIES.length)];
     await page.locator('input[placeholder="Szukaj produktów..."]').fill(query);
-    await slowDelay(); // hesitates before clicking
+    await page.waitForResponse(
+      resp => resp.url().includes('/functions/v1/embed') && resp.status() === 200,
+      { timeout: 20000 }
+    ).catch(() => {});
 
     const firstResult = page.locator('ul li a[href*="/product/"]').first();
-    if (await firstResult.isVisible({ timeout: 8000 }).catch(() => false)) {
+    if (await firstResult.isVisible({ timeout: 5000 }).catch(() => false)) {
       await firstResult.click();
     } else {
-      // Search failed, browses popular category
       await page.goto(`${TARGET_URL}/category/zestawy`, { waitUntil: 'load' });
       await mediumDelay();
       const fallbackProduct = page.locator('a[href*="/product/"]').first();
