@@ -51,16 +51,6 @@ export const trackGiftHelperRecommendation = (mood: string, products: { id: stri
   });
 };
 
-export const trackTimeToFirstProduct = (props: {
-  ttfp_ms: number;
-  source: 'search_icon' | 'gift_helper_icon';
-}) => {
-  trackEvent('Time to First Product', {
-    ...props,
-    ab_group: getABGroup(),
-  });
-};
-
 export const trackNavigationMenuOpened = (action: 'open' | 'close') => {
   trackEvent('Navigation Menu Opened', { action });
 };
@@ -82,7 +72,7 @@ export const trackSearchPopularClicked = (searchTerm: string) => {
 };
 
 export const trackProductViewed = (product: { id: string; name: string; category: string; price: number }) => {
-  trackEvent('Product Viewed', product);
+  trackEvent('Product Viewed', { ...product, ab_group: getABGroup() });
 };
 
 export const trackProductAddedToCart = (product: { id: string; name: string; category: string; price: number; quantity: number }) => {

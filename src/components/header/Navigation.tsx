@@ -131,10 +131,6 @@ const Navigation = () => {
               to="/gift-helper"
               className="p-2 text-nav-foreground hover:text-nav-hover transition-colors duration-200"
               aria-label="Doradca prezentów"
-              onClick={() => {
-                sessionStorage.setItem('ttfp_start', Date.now().toString());
-                sessionStorage.setItem('ttfp_source', 'gift_helper_icon');
-              }}
             >
               <Gift className="w-5 h-5" />
             </Link>
@@ -148,8 +144,6 @@ const Navigation = () => {
                 setSearchQuery("");
                 if (opening) {
                   trackSearchOpened();
-                  sessionStorage.setItem('ttfp_start', Date.now().toString());
-                  sessionStorage.setItem('ttfp_source', 'search_icon');
                 }
               }}
             >
