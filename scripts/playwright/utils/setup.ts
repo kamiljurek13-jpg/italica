@@ -74,7 +74,10 @@ export async function createPersonaSession(personaType: PersonaType): Promise<Pe
     abGroup,
     close: async () => {
       await page.evaluate(() => (globalThis as any).__italica?.flush?.()).catch(() => {});
-      await new Promise(r => setTimeout(r, 6000));
+      await new Promise(r => setTimeout(r, 3000));
+      // Second flush captures events that fired after the persona exited (e.g. Product Viewed after useProduct resolves)
+      await page.evaluate(() => (globalThis as any).__italica?.flush?.()).catch(() => {});
+      await new Promise(r => setTimeout(r, 3000));
       return browser.close();
     },
   };

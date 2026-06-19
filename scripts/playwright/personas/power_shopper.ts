@@ -16,20 +16,22 @@ export async function runPowerShopper(ctx: PersonaContext): Promise<void> {
     await fastDelay();
 
     const query = QUERIES[Math.floor(Math.random() * QUERIES.length)];
-    await page.locator('input[placeholder="Szukaj produktów..."]').fill(query);
-    // Embed Edge Function has 400ms debounce + cold start; wait for the actual response
-    await page.waitForResponse(
-      resp => resp.url().includes('/functions/v1/embed') && resp.status() === 200,
+    // Register listener before fill so we never miss the embed response
+    const embedDone = page.waitForResponse(
+      resp => resp.url().includes('/functions/v1/embed'),
       { timeout: 20000 }
     ).catch(() => {});
+    await page.locator('input[placeholder="Szukaj produktów..."]').fill(query);
+    await embedDone;
 
     const firstResult = page.locator('ul li a[href*="/product/"]').first();
-    if (await firstResult.isVisible({ timeout: 5000 }).catch(() => false)) {
+    if (await firstResult.isVisible({ timeout: 10000 }).catch(() => false)) {
       await firstResult.click();
     } else {
       await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });
+      await page.waitForSelector('a[href*="/product/"]', { timeout: 25000 }).catch(() => {});
       const fallbackProduct = page.locator('a[href*="/product/"]').first();
-      if (!await fallbackProduct.isVisible({ timeout: 15000 }).catch(() => false)) return;
+      if (!await fallbackProduct.isVisible({ timeout: 5000 }).catch(() => false)) return;
       await fallbackProduct.click();
     }
   } else {
