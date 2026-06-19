@@ -18,8 +18,8 @@ export async function runPremiumSkeptic(ctx: PersonaContext): Promise<void> {
 
     const query = QUERIES_A[Math.floor(Math.random() * QUERIES_A.length)];
     const embedDone = page.waitForResponse(
-      resp => resp.url().includes('/functions/v1/embed'),
-      { timeout: 20000 }
+      resp => resp.url().includes('/functions/v1/embed') && resp.request().method() === 'POST',
+      { timeout: 25000 }
     ).catch(() => {});
     await page.locator('input[placeholder="Szukaj produktów..."]').fill(query);
     await embedDone;
