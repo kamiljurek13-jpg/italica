@@ -16,23 +16,34 @@ export async function runPowerShopper(ctx: PersonaContext): Promise<void> {
     await fastDelay();
 
     const query = QUERIES[Math.floor(Math.random() * QUERIES.length)];
-    // Register listener before fill so we never miss the embed response
+    console.log(`  [ps] query="${query}" | registering embed listener`);
     const embedDone = page.waitForResponse(
       resp => resp.url().includes('/functions/v1/embed'),
       { timeout: 20000 }
-    ).catch(() => {});
+    ).then(r => { console.log(`  [ps] embed response: ${r.status()} ${r.url()}`); return r; })
+     .catch(() => { console.log(`  [ps] embed timed out or errored`); });
     await page.locator('input[placeholder="Szukaj produktów..."]').fill(query);
+    console.log(`  [ps] fill done, awaiting embed`);
     await embedDone;
+    console.log(`  [ps] embed done, checking isVisible`);
 
     const firstResult = page.locator('ul li a[href*="/product/"]').first();
-    if (await firstResult.isVisible({ timeout: 10000 }).catch(() => false)) {
+    const resultVisible = await firstResult.isVisible({ timeout: 10000 }).catch(() => false);
+    console.log(`  [ps] firstResult.isVisible=${resultVisible} | url=${page.url()}`);
+    if (resultVisible) {
       await firstResult.click();
+      console.log(`  [ps] clicked search result`);
     } else {
+      console.log(`  [ps] fallback: goto category`);
       await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });
-      await page.waitForSelector('a[href*="/product/"]', { timeout: 25000 }).catch(() => {});
+      console.log(`  [ps] category loaded: ${page.url()}`);
+      await page.waitForSelector('a[href*="/product/"]', { timeout: 25000 }).catch(() => { console.log(`  [ps] waitForSelector timed out`); });
       const fallbackProduct = page.locator('a[href*="/product/"]').first();
-      if (!await fallbackProduct.isVisible({ timeout: 5000 }).catch(() => false)) return;
+      const fallbackVisible = await fallbackProduct.isVisible({ timeout: 5000 }).catch(() => false);
+      console.log(`  [ps] fallbackProduct.isVisible=${fallbackVisible}`);
+      if (!fallbackVisible) return;
       await fallbackProduct.click();
+      console.log(`  [ps] clicked fallback product`);
     }
   } else {
     // Group B: no search icon — goes straight to category (she knows what she wants)
