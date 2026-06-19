@@ -32,13 +32,23 @@ export async function runLoyalCustomer(ctx: PersonaContext): Promise<void> {
       await fallbackProduct.click();
     }
   } else {
-    // Group B: no search — goes directly to her favourite category (knows the site)
+    // Group B: knows the site well — uses Gift Helper as a quick shortcut
     await veryFastDelay();
-    await page.goto(`${TARGET_URL}/category/biustonosze`, { waitUntil: 'load' });
+    const giftLink = page.getByRole('link', { name: 'Doradca prezentów' });
+    await giftLink.waitFor({ timeout: 10000 });
+    await giftLink.click();
+
+    const moods = ['Sexy', 'Na codzień', 'Sleep'];
+    const mood = moods[Math.floor(Math.random() * moods.length)];
+    const moodCard = page.locator('[class*="cursor-pointer"]').filter({ hasText: mood }).first();
+    if (!await moodCard.waitFor({ timeout: 10000 }).then(() => true).catch(() => false)) return;
     await veryFastDelay();
-    const productLink = page.locator('a[href*="/product/"]').first();
-    if (!await productLink.isVisible({ timeout: 15000 }).catch(() => false)) return;
-    await productLink.click();
+    await moodCard.click();
+
+    const firstProduct = page.locator('a').filter({ hasText: 'Zobacz szczegóły' }).first();
+    if (!await firstProduct.isVisible({ timeout: 20000 }).catch(() => false)) return;
+    await veryFastDelay();
+    await firstProduct.click();
   }
 
   await page.waitForURL(/\/product\//, { timeout: 10000 }).catch(() => {});
